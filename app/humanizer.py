@@ -132,5 +132,6 @@ def humanize(text, audience="", style="normal"):
                     break
 
     raise ValueError(
-        "The AI model is busy right now. Please try again in a minute."
-    ) if "busy" in last_error.lower() else ValueError(last_error)
+        f"The AI model is having trouble right now ({last_error[:120]}). "
+        "Please try again in a minute."
+    )
