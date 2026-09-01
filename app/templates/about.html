@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Free AI Humanizer</title>
+
+  <meta name="description" content="Learn about Free AI Humanizer - a genuinely free, private, no-signup AI text humanizer." />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="canonical" href="{{ site_url }}/about" />
+  <link rel="preconnect" href="https://openrouter.ai" crossorigin />
+  <link rel="stylesheet" href="{{ site_url }}/static/css/main.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="{{ site_url }}/static/css/main.css" /></noscript>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="{{ site_url }}/" class="brand" aria-label="Free AI Humanizer - Home">Free AI Humanizer</a>
+  </nav>
+
+  <main id="main-content">
+    <div class="main-card">
+      <h1>About Free AI Humanizer</h1>
+
+      <p>Free AI Humanizer is a genuinely free online tool that makes AI-assisted writing clearer, more natural, and more readable. There is no paywall, no signup requirement, and no hidden fees.</p>
+
+      <h2>Our Core Principles</h2>
+      <ul>
+        <li><strong>100% Free:</strong> No paywall, no tier limits, no "freemium" upsell. Humanize up to 2000 words per request, forever.</li>
+        <li><strong>No Signup:</strong> No account creation, no email required, no verification. Open the tool and start humanizing immediately.</li>
+        <li><strong>Privacy by Design:</strong> Your text is processed in memory on the server and never stored, written to disk, or logged. Full details in our <a href="/privacy">Privacy Policy</a>.</li>
+        <li><strong>Quality Over Volume:</strong> The humanizer focuses on removing robotic phrasing and fixing grammar while preserving your facts, names, numbers, and intent. It does not invent information or guarantee detector bypass.</li>
+      </ul>
+
+      <h2>How It Works</h2>
+      <ol>
+        <li>Paste any AI-generated text (from ChatGPT, Gemini, Claude, or other tools)</li>
+        <li>Optionally select a writing style (Normal, Professional, Academic, Casual) and recipient audience</li>
+        <li>Click "Humanize my text"</li>
+        <li>The model removes AI writing patterns, fixes grammar, and returns text that reads naturally</li>
+        <li>Copy the result and use it anywhere</li>
+      </ol>
+
+      <h2>Who Is It For?</h2>
+      <p>Students, writers, marketers, business professionals, job seekers, and anyone who wants AI-assisted writing to sound more like their own.</p>
+
+      <p><strong>This tool is not designed to "bypass AI detectors."</strong> It is designed to make AI-assisted writing clearer, more natural, and more appropriate for its intended audience. AI detector accuracy varies and changes over time; this tool focuses on writing quality, not evasion.</p>
+    </div>
+  </main>
+
+  <footer role="contentinfo">
+    &copy; {{ site_url }} &mdash; Free AI text humanizer. Remove AI watermarks, fix grammar, humanize up to 2000 words.
+    <div style="margin-top: 1rem; font-size: 0.7rem; color: var(--muted);">
+      <a href="{{ site_url }}/" style="margin-right: 1rem; color: var(--accent); text-decoration: none;">Humanize AI text</a>
+      <a href="{{ site_url }}/privacy" style="margin-right: 1rem; color: var(--accent); text-decoration: none;">Privacy</a>
+      <a href="{{ site_url }}/about" style="color: var(--accent); text-decoration: none;">About</a>
+    </div>
+  </footer>
+
+  <script src="{{ site_url }}/static/js/main.js" defer></script>
+  <noscript>
+    <div style="padding: 2rem; text-align: center; max-width: 600x; margin: 2rem auto; background: #fff; border: 1px solid var(--border); border-radius: var(--radius);">
+      <h3 style="color: var(--fg); margin-bottom: 1rem;">JavaScript Required</h3>
+      <p style="color: var(--muted);">This tool requires JavaScript to humanize text. Please enable JavaScript in your browser settings.</p>
+      <form action="/api/humanize" method="POST" style="margin-top: 1.5rem; text-align: left; max-width: 480px; margin-left: auto; margin-right: auto;">
+        <label for="text-nojs" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Your text</label>
+        <textarea name="text" id="text-nojs" rows="6" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--fg); font-family: inherit;" required></textarea>
+        <select name="style" id="style-nojs" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--fg); margin-top: 1rem;">
+          <option value="normal">Normal</option>
+          <option value="professional">Professional</option>
+          <option value="academic">Academic</option>
+          <option value="casual">Casual</option>
+        </select>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Humanize my text</button>
+      </form>
+    </div>
+  </noscript>
+</body>
+</html>

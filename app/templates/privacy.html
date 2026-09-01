@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy - Free AI Humanizer</title>
+
+  <meta name="description" content="Privacy policy for Free AI Humanizer - your text is processed in memory and never stored." />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="canonical" href="{{ site_url }}/privacy" />
+  <link rel="preconnect" href="https://openrouter.ai" crossorigin />
+  <link rel="stylesheet" href="{{ site_url }}/static/css/main.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="{{ site_url }}/static/css/main.css" /></noscript>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="{{ site_url }}/" class="brand" aria-label="Free AI Humanizer - Home">Free AI Humanizer</a>
+  </nav>
+
+  <main id="main-content">
+    <div class="main-card">
+      <h1>Privacy Policy</h1>
+
+      <p>Last updated: August 2026</p>
+
+      <h2>Our Privacy Commitment</h2>
+
+      <p><strong>Free AI Humanizer</strong> is designed with privacy as a core principle. We believe your writing data should never be stored, logged, or exploited.</p>
+
+      <h3>What We Do with Your Text</h3>
+      <ul>
+        <li><strong>In-memory processing only:</strong> Your text is processed on the server and the humanized result is returned to your browser. Nothing is written to disk, stored in a database, or logged.</li>
+        <li><strong>No account required:</strong> No user accounts, no profiles, no history. Each session is independent.</li>
+        <li><strong>No third-party sharing:</strong> Your text is not shared, sold, or licensed to any third party.</li>
+        <li><strong>No analytics on content:</strong> Aggregate usage metrics may be collected, but the actual text you humanize is never sent to analytics.</li>
+      </ul>
+
+      <h3>How the AI Provider Handles Your Text</h3>
+      <p>When you click "Humanize my text," your text is sent to OpenRouter, which routes the request to a free-tier open-source model. OpenRouter's free-tier policies apply. We add <code>$10</code> of OpenRouter credits once to raise the daily free limit from 50 to 1,000 requests — after that, the free limit resets monthly. For full details, see OpenRouter's <a href="https://openrouter.ai/terms" target="_blank" rel="noopener">terms of service</a>.</p>
+
+      <h3>Cookies and Tracking</h3>
+      <ul>
+        <li>Essential cookies only — no advertising or tracking cookies.</li>
+        <li>A "privacy badge" in the UI indicates that nothing is stored.</li>
+      </ul>
+
+      <h3>Your Rights</h3>
+      <p>You can humanize text anonymously without creating an account. If you have concerns about how your data is handled, you can use the tool without providing any personal information.</p>
+
+      <p><strong>Questions?</strong> Contact us through the website form or review the terms linked in the footer.</p>
+    </div>
+  </main>
+
+  <footer role="contentinfo">
+    &copy; {{ site_url }} &mdash; Free AI text humanizer. Remove AI watermarks, fix grammar, humanize up to 2000 words.
+    <div style="margin-top: 1rem; font-size: 0.7rem; color: var(--muted);">
+      <a href="{{ site_url }}/" style="margin-right: 1rem; color: var(--accent); text-decoration: none;">Humanize AI text</a>
+      <a href="{{ site_url }}/privacy" style="margin-right: 1rem; color: var(--accent); text-decoration: none;">Privacy</a>
+      <a href="{{ site_url }}/about" style="color: var(--accent); text-decoration: none;">About</a>
+    </div>
+  </footer>
+
+  <script src="{{ site_url }}/static/js/main.js" defer></script>
+  <noscript>
+    <div style="padding: 2rem; text-align: center; max-width: 600px; margin: 2rem auto; background: #fff; border: 1px solid var(--border); border-radius: var(--radius);">
+      <h3 style="color: var(--fg); margin-bottom: 1rem;">JavaScript Required</h3>
+      <p style="color: var(--muted);">This tool requires JavaScript to humanize text. Please enable JavaScript in your browser settings.</p>
+      <form action="/api/humanize" method="POST" style="margin-top: 1.5rem; text-align: left; max-width: 480px; margin-left: auto; margin-right: auto;">
+        <label for="text-nojs" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Your text</label>
+        <textarea name="text" id="text-nojs" rows="6" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--fg); font-family: inherit;" required></textarea>
+        <select name="style" id="style-nojs" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--fg); margin-top: 1rem;">
+          <option value="normal">Normal</option>
+          <option value="professional">Professional</option>
+          <option value="academic">Academic</option>
+          <option value="casual">Casual</option>
+        </select>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Humanize my text</button>
+      </form>
+    </div>
+  </noscript>
+</body>
+</html>

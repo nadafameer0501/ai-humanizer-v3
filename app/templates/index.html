@@ -27,8 +27,12 @@
   <meta name="theme-color" content="#121a2e" />
 
   <link rel="preconnect" href="https://openrouter.ai" crossorigin />
+  <link rel="preload" as="style" href="{{ site_url }}/static/css/main.css" />
+  <link rel="stylesheet" href="{{ site_url }}/static/css/main.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="{{ site_url }}/static/css/main.css" /></noscript>
 
   <link rel="canonical" href="{{ site_url }}/" />
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ site_url }}/sitemap.xml" />
 
   <!-- JSON-LD structured data -->
   <script type="application/ld+json">
@@ -54,7 +58,7 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is the AI text humanizer free?",
+        "name": "Is the AI text humanizer really free?",
         "acceptedAnswer": { "@type": "Answer", "text": "Yes. Our AI text humanizer is completely free, requires no account or signup, and has no hidden fees." }
       },
       {
@@ -74,479 +78,116 @@
       },
       {
         "@type": "Question",
-        "name": "How do I remove an AI watermark from text?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Paste the AI-generated text into our humanizer. It removes common AI writing patterns, overused phrases, and robotic phrasing, and rewrites the text to sound natural and human-written." }
+        "name": "What types of text can I humanize?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Emails, cover letters, essays, blog posts, LinkedIn updates, school assignments, business proposals, and any other written text." }
       },
       {
         "@type": "Question",
         "name": "Can I choose a writing style or tone?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Pick a style such as professional, academic, or casual, and optionally tell us who will read it. The humanizer adapts the tone to fit while keeping your facts identical." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Pick a style such as professional, academic, or casual, and optionally tell us who will read it - the humanizer adapts the tone to fit." }
       }
     ]
   }
   </script>
-  <style>
-    :root {
-      --bg: #0a0f1c;
-      --card: #121a2e;
-      --card-2: #182240;
-      --border: #223052;
-      --border-light: #2e3f68;
-      --text: #e8eefb;
-      --muted: #93a3bf;
-      --muted-2: #6f7f9d;
-      --accent: #4f8cff;
-      --accent-2: #8b5cf6;
-      --green: #34d399;
-      --danger: #f87171;
-      --radius: 16px;
-      --shadow: 0 24px 60px rgba(1, 6, 18, 0.6);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 16.5px;
-      background:
-        radial-gradient(1100px 600px at 85% -10%, rgba(139, 92, 246, 0.16), transparent 60%),
-        radial-gradient(1000px 500px at -10% 5%, rgba(79, 140, 255, 0.14), transparent 55%),
-        var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 1.6;
-    }
-    .nav { width: 100%; max-width: 960px; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 1.5rem; }
-    .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: 1.05rem; }
-    .brand .logo { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #04121f; font-weight: 800; }
-    .brand small { display: block; font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; }
-    .privacy-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52,211,153,0.3); color: var(--green); font-size: 0.78rem; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: 999px; }
-
-    header { text-align: center; max-width: 760px; padding: 1.2rem 1.5rem 1.8rem; }
-    header h1 { font-size: clamp(1.9rem, 4.5vw, 2.7rem); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; margin: 1rem 0 0.9rem; }
-    header h1 .grad { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    header p.sub { color: var(--muted); font-size: 1.05rem; max-width: 620px; margin: 0 auto; }
-
-    main { width: 100%; max-width: 960px; padding: 0 1.5rem 2.5rem; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem; box-shadow: var(--shadow); }
-
-    .trust {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem 1.4rem;
-      align-items: center; margin: 0.8rem auto 0; color: var(--muted);
-      font-size: 0.82rem; text-align: center;
-    }
-    .trust .t { display: inline-flex; gap: 0.35rem; align-items: center; }
-    .trust .t svg { flex-shrink: 0; color: var(--green); }
-
-    .label-row { display: flex; justify-content: space-between; align-items: baseline; margin: 0.4rem 0 0.5rem; }
-    .label-row label { font-weight: 600; font-size: 0.95rem; }
-    .label-row .count { color: var(--green); font-size: 0.82rem; font-weight: 600; transition: color .2s; }
-    .label-row .count.warn { color: #fbbf24; }
-    .label-row .count.over { color: var(--danger); }
-
-    .ta-wrap { position: relative; }
-    textarea {
-      width: 100%; min-height: 220px; resize: vertical;
-      background: var(--card-2); color: var(--text);
-      border: 1px solid var(--border-light); border-radius: 12px;
-      padding: 0.9rem 1rem; font-size: 0.98rem; line-height: 1.6;
-      font-family: inherit;
-    }
-    textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,0.15); }
-    textarea::placeholder { color: var(--muted-2); }
-
-    .controls-wrap { margin-top: 1rem; }
-    .controls-toggle {
-      background: none; border: none; color: var(--muted-2); font-size: 0.85rem;
-      cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
-      font-family: inherit; padding: 0;
-    }
-    .controls-toggle::before { content: '▸'; font-size: 0.7rem; transition: transform .2s; display: inline-block; }
-    .controls-toggle[aria-expanded="true"]::before { transform: rotate(90deg); }
-    .controls-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 0.6rem; }
-    .controls-body.collapsed { display: none; }
-    .audience { margin-top: 0; }
-    .audience label { display: block; font-weight: 600; font-size: .88rem; margin-bottom: .3rem; color: var(--text); }
-    .audience input, .audience select {
-      width: 100%; background: var(--card-2); color: var(--text);
-      border: 1px solid var(--border-light); border-radius: 12px;
-      padding: 0.75rem 0.9rem; font-size: 0.9rem; font-family: inherit;
-    }
-    .audience input:focus, .audience select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,0.15); }
-    .audience .hint { color: var(--muted-2); font-size: 0.75rem; margin-top: 0.3rem; }
-    @media (max-width: 640px) { .controls-body { grid-template-columns: 1fr; } }
-
-    .example {
-      display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.9rem; align-items: center;
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 1rem 1.1rem; margin: 1.2rem auto 0; max-width: 640px; text-align: left;
-    }
-    .example .lbl { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted-2); }
-    .example .lbl.green { color: var(--green); }
-    .example p { font-size: 0.88rem; color: var(--muted); margin-top: .35rem; }
-    .example .arrow { color: var(--accent-2); font-size: 1.1rem; }
-    @media (max-width: 560px) { .example { grid-template-columns: 1fr; } .example .arrow { transform: rotate(90deg); text-align: center; } }
-
-    .btn {
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      width: 100%; margin-top: 1.2rem; padding: 0.95rem; border: none; border-radius: 12px;
-      font-size: 1rem; font-weight: 700; cursor: pointer;
-      color: #04121f; background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      box-shadow: 0 12px 30px rgba(79,140,255,0.3);
-      transition: transform .15s, filter .15s, opacity .15s;
-      min-height: 48px;
-    }
-    .btn:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
-    .btn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
-    .btn.secondary {
-      background: var(--card-2); color: var(--accent); border: 1px solid var(--border-light);
-      box-shadow: none; font-weight: 600; margin-top: .8rem;
-    }
-    .btn.secondary:hover:not(:disabled) { border-color: var(--accent); filter: none; }
-
-    .status { margin-top: 1rem; text-align: center; min-height: 1.4rem; color: var(--muted); }
-    .status.error { color: var(--danger); }
-    .spinner { display: inline-block; width: 15px; height: 15px; border: 2px solid rgba(4,18,31,.3); border-top-color: #04121f; border-radius: 50%; animation: spin .8s linear infinite; margin-right: .4rem; vertical-align: middle; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .result { display: none; margin-top: 1.5rem; }
-    .result.show { display: block; }
-    .result-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
-    .result-head h3 { font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-    .result-head .result-meta { font-size: 0.82rem; color: var(--green); font-weight: 600; display: none; }
-    .result.show .result-meta { display: inline; }
-    .result-actions { display: flex; gap: 0.5rem; }
-    .result-actions button { background: var(--card-2); color: var(--text); border: 1px solid var(--border-light); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 0.8rem; cursor: pointer; }
-    .result-actions button:hover { border-color: var(--accent); }
-    .result-box {
-      background: var(--card-2); border: 1px solid rgba(52,211,153,.4); border-left: 3px solid var(--green);
-      border-radius: 12px; padding: 1rem; white-space: pre-wrap; line-height: 1.7; font-size: 0.98rem;
-    }
-    .result-box .diff-del { color: var(--danger); text-decoration: line-through; opacity: 0.7; font-weight: 600; }
-    header .diff-del { font-size: inherit; }
-    @keyframes resultPulse { 0% { box-shadow: 0 0 0 0 rgba(52,211,153,.35); } 100% { box-shadow: 0 0 0 8px rgba(52,211,153,0); } }
-    .result.show .result-box { animation: resultPulse .8s ease-out; }
-
-    .faq-item { border-bottom: 1px solid var(--border); }
-    .faq-item:last-child { border-bottom: none; }
-    .faq-item summary {
-      cursor: pointer; padding: 0.9rem 0; color: var(--text); font-weight: 600; font-size: 1rem;
-      list-style: none; display: flex; justify-content: space-between; align-items: center;
-    }
-    .faq-item summary::after { content: '+'; font-size: 1.1rem; color: var(--accent); transition: transform .2s; }
-    .faq-item[open] summary::after { content: '−'; }
-    .faq-item summary::-webkit-details-marker { display: none; }
-    .faq-item p { color: var(--muted); font-size: 0.92rem; padding: 0 0 0.9rem; }
-
-    .who-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-    .who-pills span { background: var(--card-2); border: 1px solid var(--border); border-radius: 999px; padding: 0.3rem 0.8rem; font-size: 0.82rem; color: var(--muted); }
-
-    .seo { max-width: 960px; width: 100%; padding: 0 1.5rem 3rem; color: var(--muted); font-size: .95rem; }
-    .seo .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem; margin-bottom: 1rem; }
-    .seo h2 { color: var(--text); font-size: 1.2rem; margin-bottom: .6rem; }
-    .seo h3 { color: var(--text); font-size: 1rem; margin: 1rem 0 .25rem; }
-    .seo p { margin-bottom: .8rem; }
-    .seo .cmp { width: 100%; border-collapse: collapse; margin: .6rem 0 .3rem; font-size: .88rem; }
-    .seo .cmp th, .seo .cmp td { text-align: left; border: 1px solid var(--border); padding: .55rem .7rem; }
-    .seo .cmp th { background: var(--card-2); color: var(--text); }
-    .seo .cmp td:first-child { color: var(--text); font-weight: 600; }
-    .seo .cmp td:nth-child(2) { color: var(--green); font-weight: 600; }
-    @media (max-width: 640px) { .seo .cmp, .seo .cmp tbody { display: block; overflow-x: auto; white-space: nowrap; } }
-
-    footer { width: 100%; text-align: center; color: var(--muted-2); font-size: .8rem; padding: 1.5rem; border-top: 1px solid var(--border); }
-    @media (max-width: 560px) { .card { padding: 1.2rem; } }
-  </style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="brand"><span class="logo">AI</span><span>Free AI Humanizer<small>Remove AI watermarks - free</small></span></div>
-    <span class="privacy-badge">&#128274; 100% private &amp; secure</span>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="{{ site_url }}/" class="brand" aria-label="Free AI Humanizer - Home">
+      <span class="logo" aria-hidden="true">AI</span>
+      <span>Free AI Humanizer</span>
+    </a>
+    <span class="privacy-badge" aria-label="Privacy guaranteed">&#128274; 100% private & secure</span>
   </nav>
 
   <header>
-    <h1>Turn AI text into <span class="grad">natural human writing</span></h1>
+    <h1>Turn AI text into <span class="accent">natural human writing</span></h1>
     <p class="sub">Paste any AI-generated text, email, or message. We remove AI writing patterns, fix grammar, and adapt the tone to your audience - up to 2000 words.</p>
 
-    <div class="example">
-      <div>
-        <span class="lbl">AI-generated</span>
-        <p><span class="diff-del">In today's fast-paced world</span>, we must <span class="diff-del">leverage</span> the <span class="diff-del">synergy</span> of our team to <span class="diff-del">elevate</span> our digital landscape.</p>
-      </div>
-      <div class="arrow">&#8595; Humanize &#8595;</div>
-      <div>
-        <span class="lbl green">Human text</span>
-        <p>Things move fast, so we team up and get things done.</p>
-      </div>
+    <div class="before-after-example" aria-label="Before and after example showing AI text transformation">
+      <h4>Before</h4>
+      <p><span class="diff-del">In today's fast-paced world</span>, we must <span class="diff-del">leverage</span> the <span class="diff-del">synergy</span> of our team to <span class="diff-del">elevate</span> our digital landscape.</p>
+      <div class="separator">↓ Humanize ↓</div>
+      <h4>After</h4>
+      <p>Things move fast, so we work together and get things done.</p>
+      <p class="caption">The right removes the robotic; the meaning stays exactly as you wrote it.</p>
     </div>
   </header>
 
-  <main>
-    <div class="card">
-      <div class="label-row">
-        <label for="text">Your text</label>
-        <span class="count" id="wordCount"><span id="wcount">0</span> / 2000 words</span>
-      </div>
-      <div class="ta-wrap">
-        <textarea id="text" placeholder="Paste your AI-generated text here..."></textarea>
+  <main id="main-content">
+    <div class="main-card">
+      <div class="textarea-wrap">
+        <textarea id="text" placeholder="Paste your AI-generated text here..." aria-describedby="text-hint" spellcheck="false"></textarea>
+        <span id="text-hint" class="sr-only">Enter up to 2000 words of AI-generated text to humanize</span>
       </div>
 
-      <div class="controls-wrap">
-        <button type="button" class="controls-toggle" id="controlsToggle" aria-expanded="false">&#9881;&#65039; Adjust tone (optional)</button>
-        <div class="controls-body collapsed" id="controlsBody">
-          <div class="audience">
-            <label for="audience">Who is it for?</label>
-            <input id="audience" type="text" placeholder="e.g. a hiring manager, a customer, a professor..." />
-            <div class="hint">We adapt the tone to this recipient while keeping your facts intact.</div>
-          </div>
-          <div class="audience">
-            <label for="style">Writing style</label>
-            <select id="style">
-              <option value="normal" selected>Normal (default)</option>
-              <option value="professional">Professional &amp; business</option>
-              <option value="academic">Academic &amp; formal</option>
-              <option value="casual">Casual &amp; friendly</option>
-            </select>
-            <div class="hint">Choose how the humanized text should read.</div>
-          </div>
-        </div>
+      <div class="controls">
+        <select id="style" class="style-selector">
+          <option value="normal" selected>Normal (default)</option>
+          <option value="professional">Professional & business</option>
+          <option value="academic">Academic & formal</option>
+          <option value="casual">Casual & friendly</option>
+        </select>
+        <span class="hint">Choose how the humanized text should read.</span>
       </div>
 
-      <button class="btn primary" id="humanizeBtn">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
-        Humanize my text
-      </button>
-      <div class="status" id="status"></div>
-      <div class="trust" id="trustBar">
-        <span class="t">&#128274; Nothing stored</span>
-        <span class="t">&middot; No signup</span>
-        <span class="t">&middot; Free</span>
-      </div>
-      <button class="btn" id="sampleBtn" type="button" style="margin-top:0.6rem;min-height:42px;font-size:.9rem;color:var(--muted);background:var(--card-2);border:1px solid var(--border-light);box-shadow:none;">
-        &#9998;&#65039; Try a sample
-      </button>
+      <button class="btn btn-primary" id="humanizeBtn" type="button">Humanize my text</button>
 
-      <div class="result" id="result">
-        <div class="result-head">
-          <h3>&#10003; Humanized output <span class="result-meta" id="resultMeta"></span></h3>
-          <div class="result-actions">
-            <button id="copyBtn">&#128203; Copy</button>
-            <button id="clearBtn">Clear</button>
-          </div>
-        </div>
-        <div class="result-box" id="resultBox"></div>
-      </div>
-    </div>
+      <div class="status" id="status" role="status" aria-live="polite" aria-atomic="true"></div>
 
-    <div class="who-pills">
-      <span>Students</span><span>Writers</span><span>Marketers</span><span>Business pros</span><span>Job seekers</span>
+      <div class="trust" role="list" aria-label="Trust indicators">
+        <div class="item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Nothing stored</div>
+        <div class="item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> No signup</div>
+        <div class="item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Free</div>
+      </div>
+
+      <button class="btn btn-secondary" id="sampleBtn" type="button">Try a sample</button>
     </div>
   </main>
 
-  <div class="seo">
-    <div class="panel">
-      <h2>What is an AI text humanizer?</h2>
-      <p>An <strong>AI text humanizer</strong> (also called an AI-to-human text converter or AI paragraph rewriter) takes text generated by an AI such as ChatGPT, Gemini, or Claude and rewrites it so it sounds natural, flowing, and written by a person. It removes the tell-tale <strong>AI writing patterns</strong> - robotic phrasing, overused words like "leverage", "delve", and "moreover", forced sentence structures, emojis, and filler - while fixing grammar and adjusting sentence rhythm.</p>
-      <p>Our humanizer is <strong>100% free, requires no signup, and never stores your text</strong>. You can humanize up to 2000 words at a time - enough for emails, essays, cover letters, blog posts, LinkedIn posts, assignments, and messages.</p>
+  <div class="result" id="result" role="region" aria-label="Humanized output" aria-live="polite">
+    <div class="result-head">
+      <h3>✓ Humanized output</h3>
+      <button class="copy-btn" id="copyBtn" type="button">Copy</button>
     </div>
-    <div class="panel">
-      <h2>How to make AI text sound human in 3 steps</h2>
-      <h3>Step 1 - Paste your text</h3>
-      <p>Copy any AI-generated text from ChatGPT, Gemini, Claude, or other AI tools and paste it into the box above.</p>
-      <h3>Step 2 - Optional: choose your reader and writing style</h3>
-      <p>Tell us who will read it (a hiring manager, a customer, a professor) and pick a writing style such as professional, academic, or casual.</p>
-      <h3>Step 3 - Humanize and copy</h3>
-      <p>Click <strong>Humanize my text</strong>. The model removes AI writing patterns, fixes grammar, and returns text that reads naturally - facts, names, and numbers stay exactly as you wrote them.</p>
-    </div>
-    <div class="panel">
-      <h2>Frequently asked questions</h2>
-      <details class="faq-item" open>
-        <summary>Is the AI text humanizer really free?</summary>
-        <p>Yes. There is no account and no payment needed. Humanize up to 2000 words for free.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Is my text stored or used anywhere?</summary>
-        <p>No. Your text is processed in memory on the server and the result is returned to your browser. Nothing is written to disk or logged.</p>
-      </details>
-      <details class="faq-item">
-        <summary>What is the word limit?</summary>
-        <p>Up to 2000 words per request.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Does it change facts or make things up?</summary>
-        <p>No. It rewrites the style, not the content. Facts, names, numbers, and details stay exactly as you provided them.</p>
-      </details>
-      <details class="faq-item">
-        <summary>What types of text can I humanize?</summary>
-        <p>Emails, cover letters, essays, blog posts, LinkedIn updates, school assignments, business proposals, and any other written text.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Can I choose a writing style or tone?</summary>
-        <p>Yes. Pick a style such as professional, academic, or casual, and optionally tell us who will read it - the humanizer adapts the tone to fit.</p>
-      </details>
-      <details class="faq-item">
-        <summary>How accurate is the AI detector removal?</summary>
-        <p>No tool can guarantee passing every AI detector. Our humanizer removes common AI writing patterns to make text sound natural, which is the main goal for most users.</p>
-      </details>
-    </div>
-    <div class="panel">
-      <h2>How this free AI text humanizer compares</h2>
-      <p>Most humanizers limit your free words per day, lock quality behind a paywall, or require an account. This one does not.</p>
-      <table class="cmp">
-        <thead>
-          <tr><th>What matters</th><th>This free humanizer</th><th>Typical free tools</th><th>Typical paid tools</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Cost</td><td>Free, no paywall</td><td>Free but limited</td><td>$9 - $20 / month</td></tr>
-          <tr><td>Words per request</td><td>Up to 2000</td><td>100 - 500</td><td>1,000 - 3,000</td></tr>
-          <tr><td>Account or signup</td><td>None needed</td><td>Often required</td><td>Required</td></tr>
-          <tr><td>Your text stored?</td><td>Never - in-memory only</td><td>Often saved</td><td>Often saved</td></tr>
-          <tr><td>Style / tone control</td><td>Audience + style</td><td>Rarely</td><td>Yes</td></tr>
-          <tr><td>Daily word cap</td><td>None</td><td>Yes</td><td>Yes</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="result-box" id="resultBox" aria-label="Humanized text output"></div>
   </div>
 
-  <footer>&copy; {{ site_url }} &mdash; Free AI text humanizer. Remove AI watermarks, fix grammar, humanize up to 2000 words.</footer>
+  <div class="pills" role="list" aria-label="Who uses this tool">
+    <span role="listitem">Students</span>
+    <span role="listitem">Writers</span>
+    <span role="listitem">Marketers</span>
+    <span role="listitem">Business pros</span>
+    <span role="listitem">Job seekers</span>
+  </div>
 
-  <script>
-    const textEl = document.getElementById('text');
-    const wcount = document.getElementById('wcount');
-    const wordCountEl = document.getElementById('wordCount');
-    const audienceEl = document.getElementById('audience');
-    const styleEl = document.getElementById('style');
-    const btn = document.getElementById('humanizeBtn');
-    const sampleBtn = document.getElementById('sampleBtn');
-    const status = document.getElementById('status');
-    const result = document.getElementById('result');
-    const resultBox = document.getElementById('resultBox');
-    const resultMeta = document.getElementById('resultMeta');
-    const controlsToggle = document.getElementById('controlsToggle');
-    const controlsBody = document.getElementById('controlsBody');
+  <footer role="contentinfo">
+    &copy; {{ site_url }} &mdash; Free AI text humanizer. Remove AI watermarks, fix grammar, humanize up to 2000 words.
+    <div style="margin-top: 1rem; font-size: 0.7rem; color: var(--muted);">
+      <a href="/privacy" style="margin-right: 1rem; color: var(--accent); text-decoration: none;">Privacy</a>
+      <a href="/about" style="margin-right: 1rem; color: var(--accent); text-decoration: none;">About</a>
+    </div>
+  </footer>
 
-    controlsToggle.addEventListener('click', () => {
-      const open = controlsBody.classList.toggle('collapsed');
-      controlsToggle.setAttribute('aria-expanded', !open);
-    });
-
-    const SAMPLE_AI = "In today's fast-paced world, we must leverage the synergy of our team to elevate our digital landscape. Moreover, it is imperative that we delve into innovative strategies and seamless solutions to foster sustainable growth across all sectors.";
-    const SAMPLE_HUMAN = "The world moves quickly, so we work together and make things happen. To keep growing, we should look at fresh ideas and simple solutions that hold up over time.";
-
-    const AI_PATTERNS = ['in today\'s fast-paced world','furthermore','moreover','it is worth noting','additionally',
-      'leverage','leverage the synergy','delve','seamless','innovative strategies','elevate','synergy',
-      'foster sustainable growth','across all sectors','it is imperative','cutting-edge','robust',
-      'comprehensive','holistic','paradigm','streamline','optimize','empower','facilitate',
-      'paramount','pivotal','game-changer','leverage','unlock','navigate','landscape',
-      'at the end of the day','in conclusion','to sum up','it goes without saying',
-      'needless to say','it is important to note','as a matter of fact','in this day and age',
-      'for all intents and purposes','the fact of the matter is'];
-
-    function highlightDiff(output) {
-      const lines = output.split('\n');
-      return lines.map(line => {
-        let highlighted = line;
-        AI_PATTERNS.forEach(p => {
-          const re = new RegExp('\\b' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
-          highlighted = highlighted.replace(re, m => '<span class="diff-del">' + m + '</span>');
-        });
-        return highlighted;
-      }).join('\n');
-    }
-
-    function countWords(s) {
-      const m = s.trim().match(/[\w'-]+/g);
-      return m ? m.length : 0;
-    }
-    function updateCount() {
-      const n = countWords(textEl.value);
-      wcount.textContent = n;
-      btn.disabled = n === 0;
-      wordCountEl.classList.remove('warn', 'over');
-      if (n > 2000) wordCountEl.classList.add('over');
-      else if (n > 1800) wordCountEl.classList.add('warn');
-    }
-    textEl.addEventListener('input', updateCount);
-    updateCount();
-
-    btn.addEventListener('click', async () => {
-      const text = textEl.value.trim();
-      const n = countWords(text);
-      if (!text) { status.textContent = 'Please paste some text.'; status.className = 'status error'; return; }
-      if (n > 2000) { status.textContent = 'This is ' + n + ' words. Limit is 2000.'; status.className = 'status error'; return; }
-
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Humanizing&hellip;';
-      status.className = 'status';
-      status.innerHTML = '';
-      result.classList.remove('show');
-
-      try {
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 90000);
-        const resp = await fetch('/api/humanize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: text, audience: audienceEl.value.trim(), style: styleEl.value }),
-          signal: ctrl.signal
-        });
-        clearTimeout(timer);
-
-        let data;
-        if (resp.headers.get('content-type') && resp.headers.get('content-type').includes('application/json')) {
-          data = await resp.json();
-        } else {
-          throw new Error('The server is waking up from an idle state. Please click Humanize once more.');
-        }
-        if (!data.ok) throw new Error(data.error || 'Request failed.');
-
-        resultBox.innerHTML = highlightDiff(data.output);
-        result.classList.add('show');
-        resultMeta.textContent = 'Done';
-        btn.innerHTML = '&#10003; Done \u2014 try another';
-        btn.disabled = false;
-
-        setTimeout(() => resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
-        status.textContent = '';
-      } catch (err) {
-        if (err.name === 'AbortError') {
-          status.textContent = 'The request took too long. Please try again in a minute.';
-        } else {
-          status.textContent = err.message;
-        }
-        status.className = 'status error';
-        btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg> Humanize my text';
-        btn.disabled = countWords(textEl.value.trim()) === 0;
-      }
-    });
-
-    sampleBtn.addEventListener('click', () => {
-      textEl.value = SAMPLE_AI;
-      resultBox.innerHTML = highlightDiff(SAMPLE_HUMAN);
-      result.classList.add('show');
-      resultMeta.textContent = 'Sample';
-      btn.innerHTML = '&#10003; Done \u2014 try another';
-      btn.disabled = false;
-      status.textContent = '';
-      updateCount();
-      setTimeout(() => resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
-    });
-
-    document.getElementById('copyBtn').addEventListener('click', async () => {
-      const t = resultBox.textContent;
-      const copyBtn = document.getElementById('copyBtn');
-      try {
-        await navigator.clipboard.writeText(t);
-        copyBtn.textContent = '\u2714 Copied';
-        setTimeout(() => copyBtn.textContent = '\uD83D\uDCCB Copy', 2000);
-      } catch { status.textContent = 'Copy failed - select manually.'; }
-    });
-    document.getElementById('clearBtn').addEventListener('click', () => {
-      textEl.value = ''; resultBox.textContent = ''; result.classList.remove('show');
-      resultMeta.textContent = '';
-      btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg> Humanize my text';
-      updateCount(); status.textContent = '';
-    });
-  </script>
+  <script src="{{ site_url }}/static/js/main.js" defer></script>
+  <noscript>
+    <div style="padding: 2rem; text-align: center; max-width: 600px; margin: 2rem auto; background: #fff; border: 1px solid var(--border); border-radius: var(--radius);">
+      <h3 style="color: var(--fg); margin-bottom: 1rem;">JavaScript Required</h3>
+      <p style="color: var(--muted);">This tool requires JavaScript to humanize text. Please enable JavaScript in your browser settings.</p>
+      <form action="/api/humanize" method="POST" style="margin-top: 1.5rem; text-align: left; max-width: 480px; margin-left: auto; margin-right: auto;">
+        <label for="text-nojs" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Your text</label>
+        <textarea name="text" id="text-nojs" rows="6" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--fg); font-family: inherit;" required></textarea>
+        <select name="style" id="style-nojs" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--fg); margin-top: 1rem;">
+          <option value="normal">Normal</option>
+          <option value="professional">Professional</option>
+          <option value="academic">Academic</option>
+          <option value="casual">Casual</option>
+        </select>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Humanize my text</button>
+      </form>
+    </div>
+  </noscript>
 </body>
 </html>

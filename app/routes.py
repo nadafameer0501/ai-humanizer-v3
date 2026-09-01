@@ -28,6 +28,11 @@ def index():
     return render_template("index.html", site_url=SITE_URL)
 
 
+@bp.route("/about", methods=["GET"])
+def about():
+    return render_template("about.html", site_url=SITE_URL)
+
+
 @bp.route("/api/humanize", methods=["POST"])
 def api_humanize():
     data = request.get_json(silent=True) or {}
@@ -54,6 +59,11 @@ def api_humanize():
     return jsonify({"ok": True, "words": wc, "output": out})
 
 
+@bp.route("/privacy", methods=["GET"])
+def privacy():
+    return render_template("privacy.html", site_url=SITE_URL)
+
+
 @bp.route("/robots.txt")
 def robots():
     body = f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n"
@@ -66,6 +76,8 @@ def sitemap():
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         f"  <url><loc>{SITE_URL}/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>\n"
+        f"  <url><loc>{SITE_URL}/about</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>\n"
+        f"  <url><loc>{SITE_URL}/privacy</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>\n"
         "</urlset>\n"
     )
     return body, 200, {"Content-Type": "application/xml"}
