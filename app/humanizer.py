@@ -81,11 +81,12 @@ def humanize(text, audience=""):
             try:
                 result = client.models.generate_content(
                     model=model,
-                    contents=SYSTEM + "\n\nUser text:\n" + text + audience_pt,
+                    contents="User text:\n" + text + audience_pt,
                     config={
                         "system_instruction": SYSTEM,
                         "temperature": 0.9,
                         "max_output_tokens": 4096,
+                        "http_options": {"timeout": 100},
                     },
                 )
                 parts = [p.text for p in result.candidates[0].content.parts if p.text] \
