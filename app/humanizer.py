@@ -6,7 +6,7 @@ from google import genai
 
 # Note: adjust this to a model your key can access. gemini-2.x and gemini-3.x
 # flash models are the current cheap/fast choices.
-MODEL = os.environ.get("HUMANIZER_MODEL", "gemini-3.6-flash")
+MODEL = os.environ.get("HUMANIZER_MODEL", "gemini-3.7-flash")
 MAX_RETRIES = int(os.environ.get("HUMANIZER_RETRIES", "3"))
 RETRY_BASE_SECONDS = int(os.environ.get("HUMANIZER_RETRY_BASE", "8"))
 
