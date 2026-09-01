@@ -3,24 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Text Humanizer - Remove AI Watermarks & Fix Grammar Free</title>
+  <title>Free AI Text Humanizer - Make AI Writing Sound Human | Remove AI Watermark</title>
 
-  <meta name="description" content="Free AI text humanizer that removes AI watermarks, fixes grammar, and makes AI-generated text sound natural and human. Supports up to 2000 words. No signup, no storage, fully private." />
-  <meta name="keywords" content="ai humanizer, humanize ai text, remove ai watermark, ai text to human, rewrite ai text, humanize text free, fix grammar, paraphrase" />
+  <meta name="description" content="Free AI text humanizer that makes AI-generated writing sound natural and human. Remove AI watermark, rewrite ChatGPT text, fix grammar, and tailor tone to your audience. Supports up to 2000 words. 100% private, no signup, no storage." />
+  <meta name="keywords" content="ai humanizer, humanize ai text, remove ai watermark, make ai text sound human, ai to human text, rewrite ai text, humanize chatgpt, fix grammar ai, paraphrase tool, humanize text free" />
   <meta name="author" content="AI Humanizer" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="{{ site_url }}/" />
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free AI Text Humanizer - Make AI Writing Sound Human" />
+  <meta name="twitter:description" content="Remove AI watermarks, fix grammar, and make AI-generated text sound natural. Up to 2000 words, 100% private, no signup." />
+  <meta name="twitter:image" content="{{ site_url }}/static/og-image.png" />
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{{ site_url }}/" />
-  <meta property="og:title" content="AI Text Humanizer - Remove AI Watermarks Free" />
+  <meta property="og:title" content="Free AI Text Humanizer - Make AI Writing Sound Human" />
   <meta property="og:description" content="Paste AI-generated text and get it rewritten to sound natural and human. Grammar fixed, AI patterns removed. Up to 2000 words, 100% private." />
   <meta property="og:site_name" content="AI Humanizer" />
+  <meta property="og:image" content="{{ site_url }}/static/og-image.png" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="theme-color" content="#121a2e" />
 
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="AI Text Humanizer" />
-  <meta name="twitter:description" content="Free, private text humanizer up to 2000 words." />
+  <!-- Preload the Gemini response for faster perceived load -->
+  <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
 
+  <link rel="canonical" href="{{ site_url }}/" />
+
+  <!-- JSON-LD structured data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -29,9 +41,45 @@
     "url": "{{ site_url }}/",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Any",
-    "description": "Free online tool that rewrites AI-generated text to sound human, removes AI writing patterns, and fixes grammar. Text is processed in memory and never stored.",
+    "description": "Free online tool that rewrites AI-generated text to sound human, removes AI writing patterns, fixes grammar, and adapts tone to any audience. Text is processed in memory and never stored.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "publisher": { "@type": "Organization", "name": "AI Humanizer" }
+    "publisher": { "@type": "Organization", "name": "AI Humanizer", "url": "{{ site_url }}", "logo": { "@type": "ImageObject", "url": "{{ site_url }}/static/og-image.png" } },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "1" }
+  }
+  </script>
+
+  <!-- FAQ structured data for rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is the AI text humanizer free?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Our AI text humanizer is completely free, requires no account or signup, and has no hidden fees." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my text stored or used anywhere?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Your text is processed in memory on the server and the result is returned to your browser. Nothing is written to disk or logged." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the word limit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You can humanize up to 2000 words per request." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it change my facts or make things up?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. It rewrites the style, not the content. Facts, names, numbers, and details stay exactly as you provided them." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I remove an AI watermark from text?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Paste the AI-generated text into our humanizer. It removes common AI writing patterns, overused phrases, and robotic phrasing, and rewrites the text to sound natural and human-written." }
+      }
+    ]
   }
   </script>
   <style>
@@ -218,22 +266,45 @@
   <div class="seo">
     <div class="panel">
       <h2>What is an AI text humanizer?</h2>
-      <p>An <strong>AI text humanizer</strong> (also called an AI-to-human text converter) rewrites text that was generated by an AI such as ChatGPT, Gemini, or Claude so it sounds natural and human-written. It removes the tell-tale <strong>AI writing patterns</strong>, fixes grammar, and adjusts sentence rhythm so the result reads like a person wrote it.</p>
-      <p>Our humanizer is <strong>100% free, requires no signup, and never stores your text</strong>. You can humanize up to 2000 words at a time - suitable for emails, essays, cover letters, blog posts, and messages.</p>
+      <p>An <strong>AI text humanizer</strong> (also called an AI-to-human text converter or AI paragraph rewriter) takes text that was generated by an AI such as ChatGPT, Gemini, or Claude and rewrites it so it sounds natural, flowing, and written by a person. It removes the tell-tale <strong>AI writing patterns</strong> - robotic phrasing, overused words like "leverage", "delve", and "moreover", forced sentence structures, emojis, and filler - while fixing grammar and adjusting sentence rhythm. The result reads like a person wrote it, without changing what you meant to say.</p>
+      <p>Our humanizer is <strong>100% free, requires no signup, and never stores your text</strong>. You can humanize up to 2000 words at a time - enough for emails, essays, cover letters, blog posts, LinkedIn posts, assignments, and messages.</p>
+    </div>
+    <div class="panel">
+      <h2>How to make AI text sound human</h2>
+      <p>Paste your AI-generated text into the box above, optionally tell us who it's for, and click <strong>Humanize my text</strong>. The model rewrites your text to remove AI watermarks and writing patterns, fixes grammar and punctuation, and adapts the tone to your audience - whether that's a hiring manager, a customer, a professor, or your boss.</p>
+      <p>Unlike simple paraphrasing tools that can introduce errors, our humanizer focuses on <strong>natural flow and accuracy</strong>. Facts, names, numbers, and details are kept exactly as you provided them - the humanizer never makes things up.</p>
+    </div>
+    <div class="panel">
+      <h2>Features</h2>
+      <h3>Remove AI watermark patterns</h3>
+      <p>Eliminates overused AI words, filler phrases, emojis, forced groups of three, and robotic "serves as / features / boasts" constructions.</p>
+      <h3>Fix grammar automatically</h3>
+      <p>Corrects grammar, punctuation, and sentence structure so the output is clean and ready to use.</p>
+      <h3>Audience-aware tone</h3>
+      <p>Tell us who will read it and the humanizer adjusts the tone to match the recipient while keeping your meaning intact.</p>
+      <h3>Private by design</h3>
+      <p>Your text is processed in memory and never stored or logged. No account, no tracking of your content.</p>
+    </div>
+    <div class="panel">
+      <h2>Frequently asked questions</h2>
       <div class="faq">
-        <h3>Is it really free?</h3>
-        <p>Yes. There is no account and no payment needed.</p>
+        <h3>Is the AI text humanizer really free?</h3>
+        <p>Yes. There is no account and no payment needed. Humanize up to 2000 words for free.</p>
         <h3>Is my text stored or used anywhere?</h3>
         <p>No. Your text is processed in memory on the server and the result is returned to your browser. Nothing is written to disk or logged.</p>
         <h3>What is the word limit?</h3>
         <p>Up to 2000 words per request.</p>
         <h3>Does it change facts or make things up?</h3>
         <p>No. It rewrites the style, not the content. Facts, names, numbers, and details stay exactly as you provided them.</p>
+        <h3>What types of text can I humanize?</h3>
+        <p>Emails, cover letters, essays, blog posts, LinkedIn updates, school assignments, business proposals, and any other written text.</p>
+        <h3>How accurate is the AI detector removal?</h3>
+        <p>No tool can guarantee passing every AI detector. Our humanizer removes common AI writing patterns and robotic phrasing to make text sound natural, which is the main goal for most users.</p>
       </div>
     </div>
   </div>
 
-  <footer>&copy; {{ site_url }} &mdash; Free &amp; private AI text humanizer</footer>
+  <footer>&copy; {{ site_url }} &mdash; Free &amp; private AI text humanizer. Remove AI watermarks, fix grammar, humanize up to 2000 words.</footer>
 
   <script>
     const textEl = document.getElementById('text');

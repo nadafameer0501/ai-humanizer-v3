@@ -66,36 +66,52 @@ def humanize(text, audience=""):
 
     client = genai.Client(api_key=api_key)
 
-    last_err = None
-    for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            result = client.models.generate_content(
-                model=MODEL,
-                contents=SYSTEM + "\n\nUser text:\n" + text + audience_pt,
-                config={
-                    "system_instruction": SYSTEM,
-                    "temperature": 0.9,
-                    "max_output_tokens": 4096,
-                },
-            )
-            parts = [p.text for p in result.candidates[0].content.parts if p.text] \
-                if result.candidates and result.candidates[0].content.parts else []
-            if not parts and result.text:
-                parts = [result.text]
-            out = "\n".join(parts).strip()
-            if not out:
-                raise ValueError("The model returned an empty result. Please try again.")
-            return out
-        except Exception as e:
-            last_err = e
-            # Retry on resource-exhausted / rate-limit style errors.
-            s = str(e).lower()
-            if ("429" in s or "quota" in s or "resource" in s or "rate" in s
-                    or "busy" in s or "temporarily" in s or "overloaded" in s):
-                if attempt < MAX_RETRIES:
+    # Try the configured model first, then fall back to other common flash models.
+    # This handles wrong/unsupported model names and busy models gracefully.
+    configured = os.environ.get("HUMANIZER_MODEL", "").strip()
+    fallbacks = ["gemini-3.7-flash", "gemini-3.6-flash", "gemini-2.5-flash",
+                 "gemini-2.0-flash", "gemini-1.5-flash-latest"]
+    if configured and configured not in fallbacks:
+        fallbacks.insert(0, configured)
+    if MODEL not in fallbacks:
+        fallbacks.insert(0, MODEL)
+
+    for idx, model in enumerate(fallbacks):
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                result = client.models.generate_content(
+                    model=model,
+                    contents=SYSTEM + "\n\nUser text:\n" + text + audience_pt,
+                    config={
+                        "system_instruction": SYSTEM,
+                        "temperature": 0.9,
+                        "max_output_tokens": 4096,
+                    },
+                )
+                parts = [p.text for p in result.candidates[0].content.parts if p.text] \
+                    if result.candidates and result.candidates[0].content.parts else []
+                if not parts and result.text:
+                    parts = [result.text]
+                out = "\n".join(parts).strip()
+                if not out:
+                    raise ValueError("The model returned an empty result. Please try again.")
+                return out
+            except Exception as e:
+                s = str(e).lower()
+                retriable = ("429" in s or "quota" in s or "resource" in s or "rate" in s
+                             or "busy" in s or "temporarily" in s or "overloaded" in s
+                             or "unavailable" in s)
+                not_found = "not found" in s or "404" in s or "does not exist" in s
+                if not_found:
+                    # This model can't be used with this key; move to the next model.
+                    break
+                if retriable and attempt < MAX_RETRIES:
                     time.sleep(RETRY_BASE_SECONDS * attempt)
                     continue
-            break
+                # Non-retriable error or out of retries -> try next model.
+                break
+        if idx < len(fallbacks) - 1:
+            time.sleep(RETRY_BASE_SECONDS)
 
     raise ValueError(
         "The AI model is busy right now. Please try again in a minute."
