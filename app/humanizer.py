@@ -2,11 +2,12 @@ import os
 import re
 import time
 
-from google import genai
+from openai import OpenAI
 
-# Note: adjust this to a model your key can access. gemini-2.x and gemini-3.x
-# flash models are the current cheap/fast choices.
-MODEL = os.environ.get("HUMANIZER_MODEL", "gemini-3.7-flash")
+# OpenRouter free-tier models (stable open-source models with multiple providers).
+# Set HUMANIZER_MODEL to override. Add $10 of OpenRouter credits once to raise the
+# daily free limit from 50 to 1,000 requests.
+MODEL = os.environ.get("HUMANIZER_MODEL", "openai/gpt-oss-120b:free")
 MAX_RETRIES = int(os.environ.get("HUMANIZER_RETRIES", "2"))
 RETRY_BASE_SECONDS = int(os.environ.get("HUMANIZER_RETRY_BASE", "2"))
 
@@ -47,7 +48,7 @@ def count_words(text):
 
 
 def humanize(text, audience="", style="normal"):
-    """Call Google Gemini to humanize the text. Raises on error. Returns rewritten text."""
+    """Humanize text via OpenRouter free models. Raises on error. Returns rewritten text."""
     if not text or not text.strip():
         raise ValueError("Text is empty.")
     if count_words(text) > 2000:
@@ -71,45 +72,38 @@ def humanize(text, audience="", style="normal"):
         if desc:
             style_pt = f"\n\nWriting style: {desc}"
 
-    api_key = os.environ.get("GOOGLE_API_KEY")
+    api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
-        raise ValueError("Google API key is not configured on the server.")
+        raise ValueError("OpenRouter API key is not configured on the server.")
 
-    client = genai.Client(api_key=api_key, http_options={"timeout": 45})
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=api_key,
+        timeout=45,
+    )
 
-    # Try the configured model first, then one fallback. Keep the list short so a
-    # request finishes well within gunicorn's request timeout (no long sleeps).
-    configured = os.environ.get("HUMANIZER_MODEL", "").strip()
-    fallbacks = ["gemini-3.7-flash", "gemini-3.6-flash"]
-    if configured and configured not in fallbacks:
-        fallbacks.insert(0, configured)
+    # Try the configured model first, then fall back to other stable free models.
+    fallbacks = ["openai/gpt-oss-120b:free", "meta-llama/llama-3.3-70b-instruct:free"]
     if MODEL not in fallbacks:
         fallbacks.insert(0, MODEL)
+    configured = os.environ.get("HUMANIZER_MODEL", "").strip()
+    if configured and configured not in fallbacks:
+        fallbacks.insert(0, configured)
 
     last_error = "The AI model is busy right now. Please try again in a minute."
     for idx, model in enumerate(fallbacks):
         for attempt in range(1, MAX_RETRIES + 1):
             try:
-                # Gemini 3.x models reject temperature/top_p/top_k (Google's
-                # migration checklist). Only older 2.x/1.5 models accept them.
-                cfg = {
-                    "system_instruction": SYSTEM,
-                    "max_output_tokens": 4096,
-                    "http_options": {"timeout": 45},
-                }
-                if not model.startswith("gemini-3"):
-                    cfg["temperature"] = 0.9
-
-                result = client.models.generate_content(
+                resp = client.chat.completions.create(
                     model=model,
-                    contents="User text:\n" + text + audience_pt + style_pt,
-                    config=cfg,
+                    max_tokens=4096,
+                    temperature=0.9,
+                    messages=[
+                        {"role": "system", "content": SYSTEM},
+                        {"role": "user", "content": "User text:\n" + text + audience_pt + style_pt},
+                    ],
                 )
-                parts = [p.text for p in result.candidates[0].content.parts if p.text] \
-                    if result.candidates and result.candidates[0].content.parts else []
-                if not parts and result.text:
-                    parts = [result.text]
-                out = "\n".join(parts).strip()
+                out = (resp.choices[0].message.content or "").strip()
                 if not out:
                     raise ValueError("The model returned an empty result. Please try again.")
                 return out
@@ -119,10 +113,9 @@ def humanize(text, audience="", style="normal"):
                              or "busy" in s or "temporarily" in s or "overloaded" in s
                              or "unavailable" in s or "timeout" in s or "timed out" in s)
                 not_found = "not found" in s or "404" in s or "does not exist" in s
-                invalid = "invalid argument" in s or "temperature" in s
                 last_error = str(e)
-                if not_found or invalid:
-                    # This model can't be used with this key / config; move to next.
+                if not_found:
+                    # This model isn't free/available; move to next.
                     break
                 if retriable and attempt < MAX_RETRIES:
                     time.sleep(RETRY_BASE_SECONDS)
