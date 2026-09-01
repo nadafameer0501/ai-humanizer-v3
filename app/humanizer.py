@@ -75,7 +75,7 @@ def humanize(text, audience="", style="normal"):
     if not api_key:
         raise ValueError("Google API key is not configured on the server.")
 
-    client = genai.Client(api_key=api_key)
+    client = genai.Client(api_key=api_key, http_options={"timeout": 45})
 
     # Try the configured model first, then one fallback. Keep the list short so a
     # request finishes well within gunicorn's request timeout (no long sleeps).
