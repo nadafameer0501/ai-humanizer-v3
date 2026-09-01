@@ -95,7 +95,7 @@ def humanize(text, audience="", style="normal"):
                 cfg = {
                     "system_instruction": SYSTEM,
                     "max_output_tokens": 4096,
-                    "http_options": {"timeout": 25},
+                    "http_options": {"timeout": 45},
                 }
                 if not model.startswith("gemini-3"):
                     cfg["temperature"] = 0.9
