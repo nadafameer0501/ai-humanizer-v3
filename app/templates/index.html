@@ -3,32 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free AI Text Humanizer - Make AI Writing Sound Human | Remove AI Watermark</title>
+  <title>Free AI Humanizer - Make AI Writing Sound Human | Remove AI Watermark</title>
 
   <meta name="description" content="Free AI text humanizer that makes AI-generated writing sound natural and human. Remove AI watermark, rewrite ChatGPT text, fix grammar, and tailor tone to your audience. Supports up to 2000 words. 100% private, no signup, no storage." />
   <meta name="keywords" content="ai humanizer, humanize ai text, remove ai watermark, make ai text sound human, ai to human text, rewrite ai text, humanize chatgpt, fix grammar ai, paraphrase tool, humanize text free" />
-  <meta name="author" content="AI Humanizer" />
+  <meta name="author" content="Free AI Humanizer" />
   <meta name="robots" content="index, follow" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Free AI Text Humanizer - Make AI Writing Sound Human" />
+  <meta name="twitter:title" content="Free AI Humanizer - Make AI Writing Sound Human" />
   <meta name="twitter:description" content="Remove AI watermarks, fix grammar, and make AI-generated text sound natural. Up to 2000 words, 100% private, no signup." />
   <meta name="twitter:image" content="{{ site_url }}/static/og-image.png" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{{ site_url }}/" />
-  <meta property="og:title" content="Free AI Text Humanizer - Make AI Writing Sound Human" />
+  <meta property="og:title" content="Free AI Humanizer - Make AI Writing Sound Human" />
   <meta property="og:description" content="Paste AI-generated text and get it rewritten to sound natural and human. Grammar fixed, AI patterns removed. Up to 2000 words, 100% private." />
-  <meta property="og:site_name" content="AI Humanizer" />
+  <meta property="og:site_name" content="Free AI Humanizer" />
   <meta property="og:image" content="{{ site_url }}/static/og-image.png" />
   <meta property="og:locale" content="en_US" />
   <meta name="theme-color" content="#121a2e" />
 
-  <!-- Preload the Gemini response for faster perceived load -->
-  <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin />
-  <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
+  <link rel="preconnect" href="https://openrouter.ai" crossorigin />
 
   <link rel="canonical" href="{{ site_url }}/" />
 
@@ -37,13 +35,13 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "AI Text Humanizer",
+    "name": "Free AI Humanizer",
     "url": "{{ site_url }}/",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Any",
     "description": "Free online tool that rewrites AI-generated text to sound human, removes AI writing patterns, fixes grammar, and adapts tone to any audience. Text is processed in memory and never stored.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "publisher": { "@type": "Organization", "name": "AI Humanizer", "url": "{{ site_url }}", "logo": { "@type": "ImageObject", "url": "{{ site_url }}/static/og-image.png" } },
+    "publisher": { "@type": "Organization", "name": "Free AI Humanizer", "url": "{{ site_url }}", "logo": { "@type": "ImageObject", "url": "{{ site_url }}/static/og-image.png" } },
     "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "1" }
   }
   </script>
@@ -107,6 +105,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 16.5px;
       background:
         radial-gradient(1100px 600px at 85% -10%, rgba(139, 92, 246, 0.16), transparent 60%),
         radial-gradient(1000px 500px at -10% 5%, rgba(79, 140, 255, 0.14), transparent 55%),
@@ -125,7 +124,6 @@
     .privacy-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52,211,153,0.3); color: var(--green); font-size: 0.78rem; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: 999px; }
 
     header { text-align: center; max-width: 760px; padding: 1.2rem 1.5rem 1.8rem; }
-    header .badge { display: inline-flex; gap: 0.4rem; align-items: center; background: rgba(79, 140, 255, 0.1); border: 1px solid rgba(79,140,255,0.3); color: var(--accent); padding: 0.4rem 0.95rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
     header h1 { font-size: clamp(1.9rem, 4.5vw, 2.7rem); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; margin: 1rem 0 0.9rem; }
     header h1 .grad { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     header p.sub { color: var(--muted); font-size: 1.05rem; max-width: 620px; margin: 0 auto; }
@@ -134,15 +132,18 @@
     .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem; box-shadow: var(--shadow); }
 
     .trust {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin-bottom: 1.3rem;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem 1.4rem;
+      align-items: center; margin: 0.8rem auto 0; color: var(--muted);
+      font-size: 0.82rem; text-align: center;
     }
-    .trust .t { display: flex; gap: 0.55rem; align-items: center; background: var(--card-2); border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.8rem; font-size: 0.8rem; color: var(--muted); }
+    .trust .t { display: inline-flex; gap: 0.35rem; align-items: center; }
     .trust .t svg { flex-shrink: 0; color: var(--green); }
-    .trust .t b { color: var(--text); }
 
     .label-row { display: flex; justify-content: space-between; align-items: baseline; margin: 0.4rem 0 0.5rem; }
     .label-row label { font-weight: 600; font-size: 0.95rem; }
-    .label-row .count { color: var(--muted-2); font-size: 0.8rem; }
+    .label-row .count { color: var(--green); font-size: 0.82rem; font-weight: 600; transition: color .2s; }
+    .label-row .count.warn { color: #fbbf24; }
+    .label-row .count.over { color: var(--danger); }
 
     .ta-wrap { position: relative; }
     textarea {
@@ -155,17 +156,26 @@
     textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,0.15); }
     textarea::placeholder { color: var(--muted-2); }
 
-    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .controls-wrap { margin-top: 1rem; }
+    .controls-toggle {
+      background: none; border: none; color: var(--muted-2); font-size: 0.85rem;
+      cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+      font-family: inherit; padding: 0;
+    }
+    .controls-toggle::before { content: '▸'; font-size: 0.7rem; transition: transform .2s; display: inline-block; }
+    .controls-toggle[aria-expanded="true"]::before { transform: rotate(90deg); }
+    .controls-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 0.6rem; }
+    .controls-body.collapsed { display: none; }
     .audience { margin-top: 0; }
-    .audience label { display: block; font-weight: 600; font-size: .95rem; margin-bottom: .4rem; }
+    .audience label { display: block; font-weight: 600; font-size: .88rem; margin-bottom: .3rem; color: var(--text); }
     .audience input, .audience select {
       width: 100%; background: var(--card-2); color: var(--text);
       border: 1px solid var(--border-light); border-radius: 12px;
-      padding: 0.8rem 1rem; font-size: 0.95rem; font-family: inherit;
+      padding: 0.75rem 0.9rem; font-size: 0.9rem; font-family: inherit;
     }
     .audience input:focus, .audience select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,0.15); }
-    .audience .hint { color: var(--muted-2); font-size: 0.78rem; margin-top: 0.35rem; }
-    @media (max-width: 640px) { .controls { grid-template-columns: 1fr; } }
+    .audience .hint { color: var(--muted-2); font-size: 0.75rem; margin-top: 0.3rem; }
+    @media (max-width: 640px) { .controls-body { grid-template-columns: 1fr; } }
 
     .example {
       display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.9rem; align-items: center;
@@ -185,6 +195,7 @@
       color: #04121f; background: linear-gradient(90deg, var(--accent), var(--accent-2));
       box-shadow: 0 12px 30px rgba(79,140,255,0.3);
       transition: transform .15s, filter .15s, opacity .15s;
+      min-height: 48px;
     }
     .btn:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
     .btn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
@@ -202,20 +213,34 @@
     .result { display: none; margin-top: 1.5rem; }
     .result.show { display: block; }
     .result-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
-    .result-head h3 { font-size: 1rem; }
+    .result-head h3 { font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .result-head .result-meta { font-size: 0.82rem; color: var(--green); font-weight: 600; display: none; }
+    .result.show .result-meta { display: inline; }
     .result-actions { display: flex; gap: 0.5rem; }
     .result-actions button { background: var(--card-2); color: var(--text); border: 1px solid var(--border-light); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 0.8rem; cursor: pointer; }
     .result-actions button:hover { border-color: var(--accent); }
     .result-box {
-      background: var(--card-2); border: 1px solid var(--green); border-left: 3px solid var(--green);
+      background: var(--card-2); border: 1px solid rgba(52,211,153,.4); border-left: 3px solid var(--green);
       border-radius: 12px; padding: 1rem; white-space: pre-wrap; line-height: 1.7; font-size: 0.98rem;
     }
+    .result-box .diff-del { color: var(--danger); text-decoration: line-through; opacity: 0.7; font-weight: 600; }
+    header .diff-del { font-size: inherit; }
+    @keyframes resultPulse { 0% { box-shadow: 0 0 0 0 rgba(52,211,153,.35); } 100% { box-shadow: 0 0 0 8px rgba(52,211,153,0); } }
+    .result.show .result-box { animation: resultPulse .8s ease-out; }
 
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
-    .feature { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; }
-    .feature .fcheck { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; background: rgba(52,211,153,.12); color: var(--green); margin-bottom: .8rem; }
-    .feature h3 { font-size: 1rem; margin-bottom: .3rem; }
-    .feature p { color: var(--muted); font-size: .88rem; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item summary {
+      cursor: pointer; padding: 0.9rem 0; color: var(--text); font-weight: 600; font-size: 1rem;
+      list-style: none; display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-item summary::after { content: '+'; font-size: 1.1rem; color: var(--accent); transition: transform .2s; }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p { color: var(--muted); font-size: 0.92rem; padding: 0 0 0.9rem; }
+
+    .who-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .who-pills span { background: var(--card-2); border: 1px solid var(--border); border-radius: 999px; padding: 0.3rem 0.8rem; font-size: 0.82rem; color: var(--muted); }
 
     .seo { max-width: 960px; width: 100%; padding: 0 1.5rem 3rem; color: var(--muted); font-size: .95rem; }
     .seo .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem; margin-bottom: 1rem; }
@@ -235,79 +260,77 @@
 </head>
 <body>
   <nav class="nav">
-    <div class="brand"><span class="logo">AI</span><span>AI Humanizer<small>Remove AI watermarks - free</small></span></div>
+    <div class="brand"><span class="logo">AI</span><span>Free AI Humanizer<small>Remove AI watermarks - free</small></span></div>
     <span class="privacy-badge">&#128274; 100% private &amp; secure</span>
   </nav>
 
   <header>
-    <span class="badge">&#9998;&#65039; Humanize AI text &middot; fix grammar &middot; free</span>
     <h1>Turn AI text into <span class="grad">natural human writing</span></h1>
-    <p class="sub">Paste any AI-generated text, email, or message. We remove AI writing patterns, fix grammar, and adapt the tone to your audience - up to 2000 words. No account, no signup, nothing stored.</p>
+    <p class="sub">Paste any AI-generated text, email, or message. We remove AI writing patterns, fix grammar, and adapt the tone to your audience - up to 2000 words.</p>
 
     <div class="example">
       <div>
         <span class="lbl">AI-generated</span>
-        <p>In today's fast-paced world, we must leverage the synergy of our team to elevate our digital landscape.</p>
+        <p><span class="diff-del">In today's fast-paced world</span>, we must <span class="diff-del">leverage</span> the <span class="diff-del">synergy</span> of our team to <span class="diff-del">elevate</span> our digital landscape.</p>
       </div>
-      <div class="arrow">&#8594;</div>
+      <div class="arrow">&#8595; Humanize &#8595;</div>
       <div>
-        <span class="lbl green">Humanized</span>
+        <span class="lbl green">Human text</span>
         <p>Things move fast, so we team up and get things done.</p>
       </div>
     </div>
   </header>
 
   <main>
-    <div class="trust">
-      <div class="t"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><b>Nothing is stored</b> - processed in memory</div>
-      <div class="t"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><b>Encrypted connection</b> - HTTPS only</div>
-      <div class="t"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg><b>No account</b> - no signup needed</div>
-      <div class="t"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><b>Free</b> - no fees, no limits*</div>
-    </div>
-
     <div class="card">
       <div class="label-row">
         <label for="text">Your text</label>
-        <span class="count"><span id="wcount">0</span> / 2000 words</span>
+        <span class="count" id="wordCount"><span id="wcount">0</span> / 2000 words</span>
       </div>
       <div class="ta-wrap">
         <textarea id="text" placeholder="Paste your AI-generated text here..."></textarea>
       </div>
 
-      <div class="controls">
-        <div class="audience">
-          <label for="audience">Who is it for? (optional)</label>
-          <input id="audience" type="text" placeholder="e.g. a hiring manager, a customer, a professor..." />
-          <div class="hint">We adapt the tone to this recipient while keeping your facts identical.</div>
-        </div>
-        <div class="audience">
-          <label for="style">Writing style</label>
-          <select id="style">
-            <option value="normal" selected>Normal (default)</option>
-            <option value="professional">Professional &amp; business</option>
-            <option value="academic">Academic &amp; formal</option>
-            <option value="casual">Casual &amp; friendly</option>
-          </select>
-          <div class="hint">Choose how the humanized text should read.</div>
+      <div class="controls-wrap">
+        <button type="button" class="controls-toggle" id="controlsToggle" aria-expanded="false">&#9881;&#65039; Adjust tone (optional)</button>
+        <div class="controls-body collapsed" id="controlsBody">
+          <div class="audience">
+            <label for="audience">Who is it for?</label>
+            <input id="audience" type="text" placeholder="e.g. a hiring manager, a customer, a professor..." />
+            <div class="hint">We adapt the tone to this recipient while keeping your facts intact.</div>
+          </div>
+          <div class="audience">
+            <label for="style">Writing style</label>
+            <select id="style">
+              <option value="normal" selected>Normal (default)</option>
+              <option value="professional">Professional &amp; business</option>
+              <option value="academic">Academic &amp; formal</option>
+              <option value="casual">Casual &amp; friendly</option>
+            </select>
+            <div class="hint">Choose how the humanized text should read.</div>
+          </div>
         </div>
       </div>
-
-      <button class="btn" id="sampleBtn" type="button">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Try a sample
-      </button>
 
       <button class="btn primary" id="humanizeBtn">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
         Humanize my text
       </button>
       <div class="status" id="status"></div>
+      <div class="trust" id="trustBar">
+        <span class="t">&#128274; Nothing stored</span>
+        <span class="t">&middot; No signup</span>
+        <span class="t">&middot; Free</span>
+      </div>
+      <button class="btn" id="sampleBtn" type="button" style="margin-top:0.6rem;min-height:42px;font-size:.9rem;color:var(--muted);background:var(--card-2);border:1px solid var(--border-light);box-shadow:none;">
+        &#9998;&#65039; Try a sample
+      </button>
 
       <div class="result" id="result">
         <div class="result-head">
-          <h3>Humanized output</h3>
+          <h3>&#10003; Humanized output <span class="result-meta" id="resultMeta"></span></h3>
           <div class="result-actions">
-            <button id="copyBtn">Copy</button>
+            <button id="copyBtn">&#128203; Copy</button>
             <button id="clearBtn">Clear</button>
           </div>
         </div>
@@ -315,45 +338,60 @@
       </div>
     </div>
 
-    <div class="features">
-      <div class="feature"><div class="fcheck"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><h3>Removes AI patterns</h3><p>Eliminates overused AI words, filler, emojis, and robotic phrasing.</p></div>
-      <div class="feature"><div class="fcheck"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M9 9h6v6H9z"/></svg></div><h3>Fixes grammar</h3><p>Corrects grammar, punctuation, and sentence structure automatically.</p></div>
-      <div class="feature"><div class="fcheck"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M2 12h20"/></svg></div><h3>Audience-aware tone</h3><p>Tells us who it's for and we adjust tone to match.</p></div>
+    <div class="who-pills">
+      <span>Students</span><span>Writers</span><span>Marketers</span><span>Business pros</span><span>Job seekers</span>
     </div>
   </main>
 
   <div class="seo">
     <div class="panel">
       <h2>What is an AI text humanizer?</h2>
-      <p>An <strong>AI text humanizer</strong> (also called an AI-to-human text converter or AI paragraph rewriter) takes text that was generated by an AI such as ChatGPT, Gemini, or Claude and rewrites it so it sounds natural, flowing, and written by a person. It removes the tell-tale <strong>AI writing patterns</strong> - robotic phrasing, overused words like "leverage", "delve", and "moreover", forced sentence structures, emojis, and filler - while fixing grammar and adjusting sentence rhythm. The result reads like a person wrote it, without changing what you meant to say.</p>
+      <p>An <strong>AI text humanizer</strong> (also called an AI-to-human text converter or AI paragraph rewriter) takes text generated by an AI such as ChatGPT, Gemini, or Claude and rewrites it so it sounds natural, flowing, and written by a person. It removes the tell-tale <strong>AI writing patterns</strong> - robotic phrasing, overused words like "leverage", "delve", and "moreover", forced sentence structures, emojis, and filler - while fixing grammar and adjusting sentence rhythm.</p>
       <p>Our humanizer is <strong>100% free, requires no signup, and never stores your text</strong>. You can humanize up to 2000 words at a time - enough for emails, essays, cover letters, blog posts, LinkedIn posts, assignments, and messages.</p>
     </div>
     <div class="panel">
       <h2>How to make AI text sound human in 3 steps</h2>
       <h3>Step 1 - Paste your text</h3>
-      <p>Copy any AI-generated text from ChatGPT, Gemini, Claude, or other AI tools and paste it into the box above. We accept up to 2000 words per request - enough for emails, essays, cover letters, blog posts, and messages.</p>
+      <p>Copy any AI-generated text from ChatGPT, Gemini, Claude, or other AI tools and paste it into the box above.</p>
       <h3>Step 2 - Optional: choose your reader and writing style</h3>
-      <p>Tell us who will read it (a hiring manager, a customer, a professor) and pick a writing style such as professional, academic, or casual. The humanizer adapts the tone to that audience.</p>
+      <p>Tell us who will read it (a hiring manager, a customer, a professor) and pick a writing style such as professional, academic, or casual.</p>
       <h3>Step 3 - Humanize and copy</h3>
-      <p>Click <strong>Humanize my text</strong>. The model removes AI writing patterns, fixes grammar and punctuation, and returns text that reads naturally - facts, names, and numbers stay exactly as you wrote them. Copy the result and use it.</p>
-      <p>Unlike simple paraphrasing tools that can introduce errors, our humanizer focuses on <strong>natural flow and accuracy</strong>. Facts, names, numbers, and details are kept exactly as you provided them - the humanizer never makes things up.</p>
+      <p>Click <strong>Humanize my text</strong>. The model removes AI writing patterns, fixes grammar, and returns text that reads naturally - facts, names, and numbers stay exactly as you wrote them.</p>
     </div>
     <div class="panel">
-      <h2>Who uses an AI text humanizer?</h2>
-      <h3>Students</h3>
-      <p>Rewrite draft assignments and submissions so they read like your own work while keeping your ideas intact.</p>
-      <h3>Writers, bloggers, and content creators</h3>
-      <p>Remove the "AI watermark" - repeated phrasing, uniform rhythm, and robotic transitions - from ChatGPT, Gemini, or Claude drafts.</p>
-      <h3>Marketers and social media professionals</h3>
-      <p>Give AI-generated copy a human voice so it does not read like it could be selling anything to anybody.</p>
-      <h3>Business professionals and customer-facing teams</h3>
-      <p>Add a personal touch to emails and messages that feel technically correct but emotionally flat.</p>
-      <h3>Job seekers and freelancers</h3>
-      <p>Edit cover letters and proposals so they do not look like the hundreds of similar AI-generated applications recruiters receive.</p>
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item" open>
+        <summary>Is the AI text humanizer really free?</summary>
+        <p>Yes. There is no account and no payment needed. Humanize up to 2000 words for free.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is my text stored or used anywhere?</summary>
+        <p>No. Your text is processed in memory on the server and the result is returned to your browser. Nothing is written to disk or logged.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What is the word limit?</summary>
+        <p>Up to 2000 words per request.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it change facts or make things up?</summary>
+        <p>No. It rewrites the style, not the content. Facts, names, numbers, and details stay exactly as you provided them.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What types of text can I humanize?</summary>
+        <p>Emails, cover letters, essays, blog posts, LinkedIn updates, school assignments, business proposals, and any other written text.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I choose a writing style or tone?</summary>
+        <p>Yes. Pick a style such as professional, academic, or casual, and optionally tell us who will read it - the humanizer adapts the tone to fit.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How accurate is the AI detector removal?</summary>
+        <p>No tool can guarantee passing every AI detector. Our humanizer removes common AI writing patterns to make text sound natural, which is the main goal for most users.</p>
+      </details>
     </div>
     <div class="panel">
       <h2>How this free AI text humanizer compares</h2>
-      <p>Most humanizers limit your free words per day, lock the best quality behind a paywall, or require an account. This one does not.</p>
+      <p>Most humanizers limit your free words per day, lock quality behind a paywall, or require an account. This one does not.</p>
       <table class="cmp">
         <thead>
           <tr><th>What matters</th><th>This free humanizer</th><th>Typical free tools</th><th>Typical paid tools</th></tr>
@@ -368,43 +406,14 @@
         </tbody>
       </table>
     </div>
-    <div class="panel">
-      <h2>Features</h2>
-      <h3>Remove AI watermark patterns</h3>
-      <p>Eliminates overused AI words, filler phrases, emojis, forced groups of three, and robotic "serves as / features / boasts" constructions.</p>
-      <h3>Fix grammar automatically</h3>
-      <p>Corrects grammar, punctuation, and sentence structure so the output is clean and ready to use.</p>
-      <h3>Audience-aware tone</h3>
-      <p>Tell us who will read it and the humanizer adjusts the tone to match the recipient while keeping your meaning intact.</p>
-      <h3>Private by design</h3>
-      <p>Your text is processed in memory and never stored or logged. No account, no tracking of your content.</p>
-    </div>
-    <div class="panel">
-      <h2>Frequently asked questions</h2>
-      <div class="faq">
-        <h3>Is the AI text humanizer really free?</h3>
-        <p>Yes. There is no account and no payment needed. Humanize up to 2000 words for free.</p>
-        <h3>Is my text stored or used anywhere?</h3>
-        <p>No. Your text is processed in memory on the server and the result is returned to your browser. Nothing is written to disk or logged.</p>
-        <h3>What is the word limit?</h3>
-        <p>Up to 2000 words per request.</p>
-        <h3>Does it change facts or make things up?</h3>
-        <p>No. It rewrites the style, not the content. Facts, names, numbers, and details stay exactly as you provided them.</p>
-        <h3>What types of text can I humanize?</h3>
-        <p>Emails, cover letters, essays, blog posts, LinkedIn updates, school assignments, business proposals, and any other written text.</p>
-        <h3>Can I choose a writing style or tone?</h3>
-        <p>Yes. Pick a style such as professional, academic, or casual, and optionally tell us who will read it - the humanizer adapts the tone to fit.</p>
-        <h3>How accurate is the AI detector removal?</h3>
-        <p>No tool can guarantee passing every AI detector. Our humanizer removes common AI writing patterns and robotic phrasing to make text sound natural, which is the main goal for most users.</p>
-      </div>
-    </div>
   </div>
 
-  <footer>&copy; {{ site_url }} &mdash; Free &amp; private AI text humanizer. Remove AI watermarks, fix grammar, humanize up to 2000 words.</footer>
+  <footer>&copy; {{ site_url }} &mdash; Free AI text humanizer. Remove AI watermarks, fix grammar, humanize up to 2000 words.</footer>
 
   <script>
     const textEl = document.getElementById('text');
     const wcount = document.getElementById('wcount');
+    const wordCountEl = document.getElementById('wordCount');
     const audienceEl = document.getElementById('audience');
     const styleEl = document.getElementById('style');
     const btn = document.getElementById('humanizeBtn');
@@ -412,9 +421,38 @@
     const status = document.getElementById('status');
     const result = document.getElementById('result');
     const resultBox = document.getElementById('resultBox');
+    const resultMeta = document.getElementById('resultMeta');
+    const controlsToggle = document.getElementById('controlsToggle');
+    const controlsBody = document.getElementById('controlsBody');
+
+    controlsToggle.addEventListener('click', () => {
+      const open = controlsBody.classList.toggle('collapsed');
+      controlsToggle.setAttribute('aria-expanded', !open);
+    });
 
     const SAMPLE_AI = "In today's fast-paced world, we must leverage the synergy of our team to elevate our digital landscape. Moreover, it is imperative that we delve into innovative strategies and seamless solutions to foster sustainable growth across all sectors.";
     const SAMPLE_HUMAN = "The world moves quickly, so we work together and make things happen. To keep growing, we should look at fresh ideas and simple solutions that hold up over time.";
+
+    const AI_PATTERNS = ['in today\'s fast-paced world','furthermore','moreover','it is worth noting','additionally',
+      'leverage','leverage the synergy','delve','seamless','innovative strategies','elevate','synergy',
+      'foster sustainable growth','across all sectors','it is imperative','cutting-edge','robust',
+      'comprehensive','holistic','paradigm','streamline','optimize','empower','facilitate',
+      'paramount','pivotal','game-changer','leverage','unlock','navigate','landscape',
+      'at the end of the day','in conclusion','to sum up','it goes without saying',
+      'needless to say','it is important to note','as a matter of fact','in this day and age',
+      'for all intents and purposes','the fact of the matter is'];
+
+    function highlightDiff(output) {
+      const lines = output.split('\n');
+      return lines.map(line => {
+        let highlighted = line;
+        AI_PATTERNS.forEach(p => {
+          const re = new RegExp('\\b' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+          highlighted = highlighted.replace(re, m => '<span class="diff-del">' + m + '</span>');
+        });
+        return highlighted;
+      }).join('\n');
+    }
 
     function countWords(s) {
       const m = s.trim().match(/[\w'-]+/g);
@@ -424,7 +462,9 @@
       const n = countWords(textEl.value);
       wcount.textContent = n;
       btn.disabled = n === 0;
-      if (n > 2000) wcount.style.color = 'var(--danger)'; else wcount.style.color = '';
+      wordCountEl.classList.remove('warn', 'over');
+      if (n > 2000) wordCountEl.classList.add('over');
+      else if (n > 1800) wordCountEl.classList.add('warn');
     }
     textEl.addEventListener('input', updateCount);
     updateCount();
@@ -436,8 +476,9 @@
       if (n > 2000) { status.textContent = 'This is ' + n + ' words. Limit is 2000.'; status.className = 'status error'; return; }
 
       btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Humanizing&hellip;';
       status.className = 'status';
-      status.innerHTML = '<span class="spinner"></span> Humanizing your text&hellip;';
+      status.innerHTML = '';
       result.classList.remove('show');
 
       try {
@@ -455,12 +496,17 @@
         if (resp.headers.get('content-type') && resp.headers.get('content-type').includes('application/json')) {
           data = await resp.json();
         } else {
-          // Server returned HTML (e.g. cold start or gateway error), not our JSON API.
           throw new Error('The server is waking up from an idle state. Please click Humanize once more.');
         }
         if (!data.ok) throw new Error(data.error || 'Request failed.');
-        resultBox.textContent = data.output;
+
+        resultBox.innerHTML = highlightDiff(data.output);
         result.classList.add('show');
+        resultMeta.textContent = 'Done';
+        btn.innerHTML = '&#10003; Done \u2014 try another';
+        btn.disabled = false;
+
+        setTimeout(() => resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
         status.textContent = '';
       } catch (err) {
         if (err.name === 'AbortError') {
@@ -469,27 +515,36 @@
           status.textContent = err.message;
         }
         status.className = 'status error';
-      } finally {
+        btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg> Humanize my text';
         btn.disabled = countWords(textEl.value.trim()) === 0;
       }
     });
 
     sampleBtn.addEventListener('click', () => {
       textEl.value = SAMPLE_AI;
-      resultBox.textContent = SAMPLE_HUMAN;
+      resultBox.innerHTML = highlightDiff(SAMPLE_HUMAN);
       result.classList.add('show');
-      status.textContent = 'Sample shown - results vary for your own text.';
-      status.className = 'status';
+      resultMeta.textContent = 'Sample';
+      btn.innerHTML = '&#10003; Done \u2014 try another';
+      btn.disabled = false;
+      status.textContent = '';
       updateCount();
+      setTimeout(() => resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
     });
 
     document.getElementById('copyBtn').addEventListener('click', async () => {
       const t = resultBox.textContent;
-      try { await navigator.clipboard.writeText(t); status.textContent = 'Copied!'; status.className = 'status'; }
-      catch { status.textContent = 'Copy failed - select manually.'; }
+      const copyBtn = document.getElementById('copyBtn');
+      try {
+        await navigator.clipboard.writeText(t);
+        copyBtn.textContent = '\u2714 Copied';
+        setTimeout(() => copyBtn.textContent = '\uD83D\uDCCB Copy', 2000);
+      } catch { status.textContent = 'Copy failed - select manually.'; }
     });
     document.getElementById('clearBtn').addEventListener('click', () => {
       textEl.value = ''; resultBox.textContent = ''; result.classList.remove('show');
+      resultMeta.textContent = '';
+      btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg> Humanize my text';
       updateCount(); status.textContent = '';
     });
   </script>

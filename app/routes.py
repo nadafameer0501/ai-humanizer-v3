@@ -6,7 +6,7 @@ from .humanizer import count_words, humanize
 
 bp = Blueprint("main", __name__)
 
-SITE_URL = os.environ.get("SITE_URL", "https://ai-humanizer-stream.onrender.com")
+SITE_URL = os.environ.get("SITE_URL", "https://freeaihumanizer.in")
 
 SECURITY_HEADERS = {
     "X-Content-Type-Options": "nosniff",
