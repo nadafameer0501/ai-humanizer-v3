@@ -7,7 +7,7 @@ from openai import OpenAI
 # OpenRouter free-tier models (stable open-source models with multiple providers).
 # Set HUMANIZER_MODEL to override. Add $10 of OpenRouter credits once to raise the
 # daily free limit from 50 to 1,000 requests.
-MODEL = os.environ.get("HUMANIZER_MODEL", "openai/gpt-oss-120b:free")
+MODEL = os.environ.get("HUMANIZER_MODEL", "z-ai/glm-5.2:free")
 MAX_RETRIES = int(os.environ.get("HUMANIZER_RETRIES", "2"))
 RETRY_BASE_SECONDS = int(os.environ.get("HUMANIZER_RETRY_BASE", "2"))
 
@@ -83,7 +83,9 @@ def humanize(text, audience="", style="normal"):
     )
 
     # Try the configured model first, then fall back to other stable free models.
-    fallbacks = ["openai/gpt-oss-120b:free", "meta-llama/llama-3.3-70b-instruct:free"]
+    # Free roster changes often; verified against OpenRouter's live list (Sept 2026).
+    fallbacks = ["z-ai/glm-5.2:free", "google/gemma-4-31b-it:free",
+                 "nvidia/nemotron-3-super-120b-a12b:free"]
     if MODEL not in fallbacks:
         fallbacks.insert(0, MODEL)
     configured = os.environ.get("HUMANIZER_MODEL", "").strip()
