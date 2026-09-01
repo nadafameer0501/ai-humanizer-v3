@@ -340,18 +340,33 @@
       result.classList.remove('show');
 
       try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 90000);
         const resp = await fetch('/api/humanize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: text, audience: audienceEl.value.trim() })
+          body: JSON.stringify({ text: text, audience: audienceEl.value.trim() }),
+          signal: ctrl.signal
         });
-        const data = await resp.json();
+        clearTimeout(timer);
+
+        let data;
+        if (resp.headers.get('content-type') && resp.headers.get('content-type').includes('application/json')) {
+          data = await resp.json();
+        } else {
+          // Server returned HTML (e.g. cold start or gateway error), not our JSON API.
+          throw new Error('The server is waking up from an idle state. Please click Humanize once more.');
+        }
         if (!data.ok) throw new Error(data.error || 'Request failed.');
         resultBox.textContent = data.output;
         result.classList.add('show');
         status.textContent = '';
       } catch (err) {
-        status.textContent = err.message;
+        if (err.name === 'AbortError') {
+          status.textContent = 'The request took too long. Please try again in a minute.';
+        } else {
+          status.textContent = err.message;
+        }
         status.className = 'status error';
       } finally {
         btn.disabled = countWords(textEl.value.trim()) === 0;
