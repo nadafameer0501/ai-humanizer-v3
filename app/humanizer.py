@@ -7,8 +7,8 @@ from google import genai
 # Note: adjust this to a model your key can access. gemini-2.x and gemini-3.x
 # flash models are the current cheap/fast choices.
 MODEL = os.environ.get("HUMANIZER_MODEL", "gemini-3.7-flash")
-MAX_RETRIES = int(os.environ.get("HUMANIZER_RETRIES", "3"))
-RETRY_BASE_SECONDS = int(os.environ.get("HUMANIZER_RETRY_BASE", "8"))
+MAX_RETRIES = int(os.environ.get("HUMANIZER_RETRIES", "2"))
+RETRY_BASE_SECONDS = int(os.environ.get("HUMANIZER_RETRY_BASE", "2"))
 
 # The 35 patterns from blader/humanizer (Wikipedia: "Signs of AI writing") plus
 # grammar + audience handling. Supplied as the system prompt.
@@ -46,7 +46,7 @@ def count_words(text):
     return len(re.findall(r"\b[\w'-]+\b", text))
 
 
-def humanize(text, audience=""):
+def humanize(text, audience="", style="normal"):
     """Call Google Gemini to humanize the text. Raises on error. Returns rewritten text."""
     if not text or not text.strip():
         raise ValueError("Text is empty.")
@@ -60,34 +60,50 @@ def humanize(text, audience=""):
             "Tone the writing for this audience while keeping facts identical."
         )
 
+    style_pt = ""
+    if style and style.strip() and style.strip() != "normal":
+        style_guides = {
+            "professional": "Write in a professional, business-like register: concise, confident, polished, plain language. Avoid slang and casual filler.",
+            "academic": "Write in an academic, formal register: measured, precise, well-structured sentences with a neutral, scholarly tone.",
+            "casual": "Write in a casual, friendly register: conversational, warm, approachable. Contractions are fine; keep it natural.",
+        }
+        desc = style_guides.get(style.strip().lower(), "")
+        if desc:
+            style_pt = f"\n\nWriting style: {desc}"
+
     api_key = os.environ.get("GOOGLE_API_KEY")
     if not api_key:
         raise ValueError("Google API key is not configured on the server.")
 
     client = genai.Client(api_key=api_key)
 
-    # Try the configured model first, then fall back to other common flash models.
-    # This handles wrong/unsupported model names and busy models gracefully.
+    # Try the configured model first, then one fallback. Keep the list short so a
+    # request finishes well within gunicorn's request timeout (no long sleeps).
     configured = os.environ.get("HUMANIZER_MODEL", "").strip()
-    fallbacks = ["gemini-3.7-flash", "gemini-3.6-flash", "gemini-2.5-flash",
-                 "gemini-2.0-flash", "gemini-1.5-flash-latest"]
+    fallbacks = ["gemini-3.7-flash", "gemini-3.6-flash"]
     if configured and configured not in fallbacks:
         fallbacks.insert(0, configured)
     if MODEL not in fallbacks:
         fallbacks.insert(0, MODEL)
 
+    last_error = "The AI model is busy right now. Please try again in a minute."
     for idx, model in enumerate(fallbacks):
         for attempt in range(1, MAX_RETRIES + 1):
             try:
+                # Gemini 3.x models reject temperature/top_p/top_k (Google's
+                # migration checklist). Only older 2.x/1.5 models accept them.
+                cfg = {
+                    "system_instruction": SYSTEM,
+                    "max_output_tokens": 4096,
+                    "http_options": {"timeout": 25},
+                }
+                if not model.startswith("gemini-3"):
+                    cfg["temperature"] = 0.9
+
                 result = client.models.generate_content(
                     model=model,
-                    contents="User text:\n" + text + audience_pt,
-                    config={
-                        "system_instruction": SYSTEM,
-                        "temperature": 0.9,
-                        "max_output_tokens": 4096,
-                        "http_options": {"timeout": 100},
-                    },
+                    contents="User text:\n" + text + audience_pt + style_pt,
+                    config=cfg,
                 )
                 parts = [p.text for p in result.candidates[0].content.parts if p.text] \
                     if result.candidates and result.candidates[0].content.parts else []
@@ -101,19 +117,20 @@ def humanize(text, audience=""):
                 s = str(e).lower()
                 retriable = ("429" in s or "quota" in s or "resource" in s or "rate" in s
                              or "busy" in s or "temporarily" in s or "overloaded" in s
-                             or "unavailable" in s)
+                             or "unavailable" in s or "timeout" in s or "timed out" in s)
                 not_found = "not found" in s or "404" in s or "does not exist" in s
-                if not_found:
-                    # This model can't be used with this key; move to the next model.
+                invalid = "invalid argument" in s or "temperature" in s
+                last_error = str(e)
+                if not_found or invalid:
+                    # This model can't be used with this key / config; move to next.
                     break
                 if retriable and attempt < MAX_RETRIES:
-                    time.sleep(RETRY_BASE_SECONDS * attempt)
+                    time.sleep(RETRY_BASE_SECONDS)
                     continue
                 # Non-retriable error or out of retries -> try next model.
-                break
-        if idx < len(fallbacks) - 1:
-            time.sleep(RETRY_BASE_SECONDS)
+                if idx == len(fallbacks) - 1 and attempt == MAX_RETRIES:
+                    break
 
     raise ValueError(
         "The AI model is busy right now. Please try again in a minute."
-    )
+    ) if "busy" in last_error.lower() else ValueError(last_error)

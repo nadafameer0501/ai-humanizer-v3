@@ -33,6 +33,9 @@ def api_humanize():
     data = request.get_json(silent=True) or {}
     text = (data.get("text") or "").strip()
     audience = (data.get("audience") or "").strip()
+    style = (data.get("style") or "normal").strip()
+    if style not in ("normal", "professional", "academic", "casual"):
+        style = "normal"
 
     if not text:
         return jsonify({"ok": False, "error": "Please paste some text first."}), 400
@@ -41,7 +44,7 @@ def api_humanize():
         return jsonify({"ok": False, "error": f"Text is {wc} words. The limit is 2000 words."}), 400
 
     try:
-        out = humanize(text, audience)
+        out = humanize(text, audience, style)
     except ValueError as e:
         return jsonify({"ok": False, "error": str(e)}), 400
     except Exception as e:

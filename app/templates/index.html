@@ -78,6 +78,11 @@
         "@type": "Question",
         "name": "How do I remove an AI watermark from text?",
         "acceptedAnswer": { "@type": "Answer", "text": "Paste the AI-generated text into our humanizer. It removes common AI writing patterns, overused phrases, and robotic phrasing, and rewrites the text to sound natural and human-written." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I choose a writing style or tone?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Pick a style such as professional, academic, or casual, and optionally tell us who will read it. The humanizer adapts the tone to fit while keeping your facts identical." }
       }
     ]
   }
@@ -150,14 +155,28 @@
     textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,0.15); }
     textarea::placeholder { color: var(--muted-2); }
 
-    .audience { margin-top: 1rem; }
-    .audience input {
+    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .audience { margin-top: 0; }
+    .audience label { display: block; font-weight: 600; font-size: .95rem; margin-bottom: .4rem; }
+    .audience input, .audience select {
       width: 100%; background: var(--card-2); color: var(--text);
       border: 1px solid var(--border-light); border-radius: 12px;
-      padding: 0.8rem 1rem; font-size: 0.95rem;
+      padding: 0.8rem 1rem; font-size: 0.95rem; font-family: inherit;
     }
-    .audience input:focus { outline: none; border-color: var(--accent); }
-    .audience .hint { color: var(--muted-2); font-size: 0.78rem; margin-top: 0.3rem; }
+    .audience input:focus, .audience select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,0.15); }
+    .audience .hint { color: var(--muted-2); font-size: 0.78rem; margin-top: 0.35rem; }
+    @media (max-width: 640px) { .controls { grid-template-columns: 1fr; } }
+
+    .example {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.9rem; align-items: center;
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1rem 1.1rem; margin: 1.2rem auto 0; max-width: 640px; text-align: left;
+    }
+    .example .lbl { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted-2); }
+    .example .lbl.green { color: var(--green); }
+    .example p { font-size: 0.88rem; color: var(--muted); margin-top: .35rem; }
+    .example .arrow { color: var(--accent-2); font-size: 1.1rem; }
+    @media (max-width: 560px) { .example { grid-template-columns: 1fr; } .example .arrow { transform: rotate(90deg); text-align: center; } }
 
     .btn {
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
@@ -169,6 +188,11 @@
     }
     .btn:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
     .btn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
+    .btn.secondary {
+      background: var(--card-2); color: var(--accent); border: 1px solid var(--border-light);
+      box-shadow: none; font-weight: 600; margin-top: .8rem;
+    }
+    .btn.secondary:hover:not(:disabled) { border-color: var(--accent); filter: none; }
 
     .status { margin-top: 1rem; text-align: center; min-height: 1.4rem; color: var(--muted); }
     .status.error { color: var(--danger); }
@@ -198,6 +222,12 @@
     .seo h2 { color: var(--text); font-size: 1.2rem; margin-bottom: .6rem; }
     .seo h3 { color: var(--text); font-size: 1rem; margin: 1rem 0 .25rem; }
     .seo p { margin-bottom: .8rem; }
+    .seo .cmp { width: 100%; border-collapse: collapse; margin: .6rem 0 .3rem; font-size: .88rem; }
+    .seo .cmp th, .seo .cmp td { text-align: left; border: 1px solid var(--border); padding: .55rem .7rem; }
+    .seo .cmp th { background: var(--card-2); color: var(--text); }
+    .seo .cmp td:first-child { color: var(--text); font-weight: 600; }
+    .seo .cmp td:nth-child(2) { color: var(--green); font-weight: 600; }
+    @media (max-width: 640px) { .seo .cmp, .seo .cmp tbody { display: block; overflow-x: auto; white-space: nowrap; } }
 
     footer { width: 100%; text-align: center; color: var(--muted-2); font-size: .8rem; padding: 1.5rem; border-top: 1px solid var(--border); }
     @media (max-width: 560px) { .card { padding: 1.2rem; } }
@@ -212,7 +242,19 @@
   <header>
     <span class="badge">&#9998;&#65039; Humanize AI text &middot; fix grammar &middot; free</span>
     <h1>Turn AI text into <span class="grad">natural human writing</span></h1>
-    <p class="sub">Paste any AI-generated text, email, or message. We remove AI writing patterns, fix grammar, and adapt the tone to your audience - up to 2000 words.</p>
+    <p class="sub">Paste any AI-generated text, email, or message. We remove AI writing patterns, fix grammar, and adapt the tone to your audience - up to 2000 words. No account, no signup, nothing stored.</p>
+
+    <div class="example">
+      <div>
+        <span class="lbl">AI-generated</span>
+        <p>In today's fast-paced world, we must leverage the synergy of our team to elevate our digital landscape.</p>
+      </div>
+      <div class="arrow">&#8594;</div>
+      <div>
+        <span class="lbl green">Humanized</span>
+        <p>Things move fast, so we team up and get things done.</p>
+      </div>
+    </div>
   </header>
 
   <main>
@@ -232,13 +274,30 @@
         <textarea id="text" placeholder="Paste your AI-generated text here..."></textarea>
       </div>
 
-      <div class="audience">
-        <label for="audience" style="font-weight:600;font-size:.95rem;">Who is it for? (optional)</label>
-        <input id="audience" type="text" placeholder="e.g. a hiring manager, a customer, a professor, my boss..." />
-        <div class="hint">We adapt the tone to this recipient while keeping your facts identical.</div>
+      <div class="controls">
+        <div class="audience">
+          <label for="audience">Who is it for? (optional)</label>
+          <input id="audience" type="text" placeholder="e.g. a hiring manager, a customer, a professor..." />
+          <div class="hint">We adapt the tone to this recipient while keeping your facts identical.</div>
+        </div>
+        <div class="audience">
+          <label for="style">Writing style</label>
+          <select id="style">
+            <option value="normal" selected>Normal (default)</option>
+            <option value="professional">Professional &amp; business</option>
+            <option value="academic">Academic &amp; formal</option>
+            <option value="casual">Casual &amp; friendly</option>
+          </select>
+          <div class="hint">Choose how the humanized text should read.</div>
+        </div>
       </div>
 
-      <button class="btn" id="humanizeBtn">
+      <button class="btn" id="sampleBtn" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Try a sample
+      </button>
+
+      <button class="btn primary" id="humanizeBtn">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
         Humanize my text
       </button>
@@ -270,9 +329,44 @@
       <p>Our humanizer is <strong>100% free, requires no signup, and never stores your text</strong>. You can humanize up to 2000 words at a time - enough for emails, essays, cover letters, blog posts, LinkedIn posts, assignments, and messages.</p>
     </div>
     <div class="panel">
-      <h2>How to make AI text sound human</h2>
-      <p>Paste your AI-generated text into the box above, optionally tell us who it's for, and click <strong>Humanize my text</strong>. The model rewrites your text to remove AI watermarks and writing patterns, fixes grammar and punctuation, and adapts the tone to your audience - whether that's a hiring manager, a customer, a professor, or your boss.</p>
+      <h2>How to make AI text sound human in 3 steps</h2>
+      <h3>Step 1 - Paste your text</h3>
+      <p>Copy any AI-generated text from ChatGPT, Gemini, Claude, or other AI tools and paste it into the box above. We accept up to 2000 words per request - enough for emails, essays, cover letters, blog posts, and messages.</p>
+      <h3>Step 2 - Optional: choose your reader and writing style</h3>
+      <p>Tell us who will read it (a hiring manager, a customer, a professor) and pick a writing style such as professional, academic, or casual. The humanizer adapts the tone to that audience.</p>
+      <h3>Step 3 - Humanize and copy</h3>
+      <p>Click <strong>Humanize my text</strong>. The model removes AI writing patterns, fixes grammar and punctuation, and returns text that reads naturally - facts, names, and numbers stay exactly as you wrote them. Copy the result and use it.</p>
       <p>Unlike simple paraphrasing tools that can introduce errors, our humanizer focuses on <strong>natural flow and accuracy</strong>. Facts, names, numbers, and details are kept exactly as you provided them - the humanizer never makes things up.</p>
+    </div>
+    <div class="panel">
+      <h2>Who uses an AI text humanizer?</h2>
+      <h3>Students</h3>
+      <p>Rewrite draft assignments and submissions so they read like your own work while keeping your ideas intact.</p>
+      <h3>Writers, bloggers, and content creators</h3>
+      <p>Remove the "AI watermark" - repeated phrasing, uniform rhythm, and robotic transitions - from ChatGPT, Gemini, or Claude drafts.</p>
+      <h3>Marketers and social media professionals</h3>
+      <p>Give AI-generated copy a human voice so it does not read like it could be selling anything to anybody.</p>
+      <h3>Business professionals and customer-facing teams</h3>
+      <p>Add a personal touch to emails and messages that feel technically correct but emotionally flat.</p>
+      <h3>Job seekers and freelancers</h3>
+      <p>Edit cover letters and proposals so they do not look like the hundreds of similar AI-generated applications recruiters receive.</p>
+    </div>
+    <div class="panel">
+      <h2>How this free AI text humanizer compares</h2>
+      <p>Most humanizers limit your free words per day, lock the best quality behind a paywall, or require an account. This one does not.</p>
+      <table class="cmp">
+        <thead>
+          <tr><th>What matters</th><th>This free humanizer</th><th>Typical free tools</th><th>Typical paid tools</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cost</td><td>Free, no paywall</td><td>Free but limited</td><td>$9 - $20 / month</td></tr>
+          <tr><td>Words per request</td><td>Up to 2000</td><td>100 - 500</td><td>1,000 - 3,000</td></tr>
+          <tr><td>Account or signup</td><td>None needed</td><td>Often required</td><td>Required</td></tr>
+          <tr><td>Your text stored?</td><td>Never - in-memory only</td><td>Often saved</td><td>Often saved</td></tr>
+          <tr><td>Style / tone control</td><td>Audience + style</td><td>Rarely</td><td>Yes</td></tr>
+          <tr><td>Daily word cap</td><td>None</td><td>Yes</td><td>Yes</td></tr>
+        </tbody>
+      </table>
     </div>
     <div class="panel">
       <h2>Features</h2>
@@ -298,6 +392,8 @@
         <p>No. It rewrites the style, not the content. Facts, names, numbers, and details stay exactly as you provided them.</p>
         <h3>What types of text can I humanize?</h3>
         <p>Emails, cover letters, essays, blog posts, LinkedIn updates, school assignments, business proposals, and any other written text.</p>
+        <h3>Can I choose a writing style or tone?</h3>
+        <p>Yes. Pick a style such as professional, academic, or casual, and optionally tell us who will read it - the humanizer adapts the tone to fit.</p>
         <h3>How accurate is the AI detector removal?</h3>
         <p>No tool can guarantee passing every AI detector. Our humanizer removes common AI writing patterns and robotic phrasing to make text sound natural, which is the main goal for most users.</p>
       </div>
@@ -310,10 +406,15 @@
     const textEl = document.getElementById('text');
     const wcount = document.getElementById('wcount');
     const audienceEl = document.getElementById('audience');
+    const styleEl = document.getElementById('style');
     const btn = document.getElementById('humanizeBtn');
+    const sampleBtn = document.getElementById('sampleBtn');
     const status = document.getElementById('status');
     const result = document.getElementById('result');
     const resultBox = document.getElementById('resultBox');
+
+    const SAMPLE_AI = "In today's fast-paced world, we must leverage the synergy of our team to elevate our digital landscape. Moreover, it is imperative that we delve into innovative strategies and seamless solutions to foster sustainable growth across all sectors.";
+    const SAMPLE_HUMAN = "The world moves quickly, so we work together and make things happen. To keep growing, we should look at fresh ideas and simple solutions that hold up over time.";
 
     function countWords(s) {
       const m = s.trim().match(/[\w'-]+/g);
@@ -345,7 +446,7 @@
         const resp = await fetch('/api/humanize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: text, audience: audienceEl.value.trim() }),
+          body: JSON.stringify({ text: text, audience: audienceEl.value.trim(), style: styleEl.value }),
           signal: ctrl.signal
         });
         clearTimeout(timer);
@@ -371,6 +472,15 @@
       } finally {
         btn.disabled = countWords(textEl.value.trim()) === 0;
       }
+    });
+
+    sampleBtn.addEventListener('click', () => {
+      textEl.value = SAMPLE_AI;
+      resultBox.textContent = SAMPLE_HUMAN;
+      result.classList.add('show');
+      status.textContent = 'Sample shown - results vary for your own text.';
+      status.className = 'status';
+      updateCount();
     });
 
     document.getElementById('copyBtn').addEventListener('click', async () => {
