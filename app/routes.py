@@ -70,6 +70,12 @@ def robots():
     return body, 200, {"Content-Type": "text/plain"}
 
 
+@bp.route("/googlefcca68357cc9189e.html")
+def google_verification():
+    body = "google-site-verification: googlefcca68357cc9189e.html"
+    return body, 200, {"Content-Type": "text/plain"}
+
+
 @bp.route("/sitemap.xml")
 def sitemap():
     body = (
