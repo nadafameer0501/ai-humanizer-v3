@@ -76,6 +76,12 @@ def google_verification():
     return body, 200, {"Content-Type": "text/plain"}
 
 
+@bp.route("/googlee181db419b735d3a.html")
+def google_verification_2():
+    body = "google-site-verification: googlee181db419b735d3a.html"
+    return body, 200, {"Content-Type": "text/plain"}
+
+
 @bp.route("/sitemap.xml")
 def sitemap():
     body = (
