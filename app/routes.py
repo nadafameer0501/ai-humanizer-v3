@@ -6,21 +6,15 @@ from .humanizer import count_words, humanize
 
 bp = Blueprint("main", __name__)
 
-SITE_URL = os.environ.get("SITE_URL", "https://freeaihumanizer.in")
-
-SECURITY_HEADERS = {
-    "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY",
-    "Referrer-Policy": "no-referrer",
-    "X-XSS-Protection": "0",
-}
+SITE_URL = os.environ.get("SITE_URL", "https://freeaihumanizer.in").rstrip("/")
+ALLOWED_STYLES = {"normal", "professional", "academic", "casual"}
+MAX_WORDS = 2000
 
 
-@bp.after_request
-def add_security_headers(resp):
-    for k, v in SECURITY_HEADERS.items():
-        resp.headers.setdefault(k, v)
-    return resp
+def api_response(payload, status=200):
+    response = jsonify(payload)
+    response.headers["Cache-Control"] = "no-store"
+    return response, status
 
 
 @bp.route("/", methods=["GET"])
@@ -35,28 +29,29 @@ def about():
 
 @bp.route("/api/humanize", methods=["POST"])
 def api_humanize():
-    data = request.get_json(silent=True) or {}
-    text = (data.get("text") or "").strip()
-    audience = (data.get("audience") or "").strip()
-    style = (data.get("style") or "normal").strip()
-    if style not in ("normal", "professional", "academic", "casual"):
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    text = str(data.get("text") or "").strip()
+    audience = str(data.get("audience") or "").strip()[:80]
+    style = str(data.get("style") or "normal").strip().lower()
+    if style not in ALLOWED_STYLES:
         style = "normal"
 
     if not text:
-        return jsonify({"ok": False, "error": "Please paste some text first."}), 400
-    wc = count_words(text)
-    if wc > 2000:
-        return jsonify({"ok": False, "error": f"Text is {wc} words. The limit is 2000 words."}), 400
+        return api_response({"ok": False, "error": "Please paste some text first."}, 400)
+    word_count = count_words(text)
+    if word_count > MAX_WORDS:
+        return api_response({"ok": False, "error": f"Text is {word_count} words. The limit is {MAX_WORDS} words."}, 400)
 
     try:
-        out = humanize(text, audience, style)
-    except ValueError as e:
-        return jsonify({"ok": False, "error": str(e)}), 400
-    except Exception as e:
-        return jsonify({"ok": False, "error": "Something went wrong. Please try again."}), 500
+        output = humanize(text, audience, style)
+    except ValueError as error:
+        return api_response({"ok": False, "error": str(error)}, 400)
+    except Exception:
+        return api_response({"ok": False, "error": "Something went wrong. Please try again."}, 500)
 
-    # Nothing is logged or stored. The rewritten text is returned to the caller only.
-    return jsonify({"ok": True, "words": wc, "output": out})
+    # Text is processed in memory and returned only to the requesting browser.
+    return api_response({"ok": True, "words": word_count, "output": output})
 
 
 @bp.route("/privacy", methods=["GET"])
@@ -72,14 +67,12 @@ def robots():
 
 @bp.route("/googlefcca68357cc9189e.html")
 def google_verification():
-    body = "google-site-verification: googlefcca68357cc9189e.html"
-    return body, 200, {"Content-Type": "text/plain"}
+    return "google-site-verification: googlefcca68357cc9189e.html", 200, {"Content-Type": "text/plain"}
 
 
 @bp.route("/googlee181db419b735d3a.html")
 def google_verification_2():
-    body = "google-site-verification: googlee181db419b735d3a.html"
-    return body, 200, {"Content-Type": "text/plain"}
+    return "google-site-verification: googlee181db419b735d3a.html", 200, {"Content-Type": "text/plain"}
 
 
 @bp.route("/sitemap.xml")

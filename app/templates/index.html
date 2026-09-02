@@ -1,318 +1,151 @@
-import { useState, useRef, useEffect } from "react";
-
-
-const TONES = [
-  { value: "normal", label: "Natural", desc: "Conversational & clear" },
-  { value: "professional", label: "Pro", desc: "Polished & authoritative" },
-  { value: "academic", label: "Academic", desc: "Scholarly but readable" },
-  { value: "casual", label: "Casual", desc: "Relaxed & friendly" },
-];
-
-
-const WORD_PAIRS = [
-  { before: "utilize", after: "use" },
-  { before: "leverage", after: "apply" },
-  { before: "facilitate", after: "help" },
-  { before: "paradigm shift", after: "big change" },
-  { before: "optimal", after: "best" },
-  { before: "implement", after: "set up" },
-  { before: "Furthermore", after: "Plus" },
-];
-
-
-const AUDIENCE_TABS = [
-  {
-    id: "students",
-    emoji: "🎓",
-    label: "Students",
-    heading: "Ace without the anxiety",
-    body: "Turn AI-assisted drafts into writing that's unmistakably yours — flowing, personal, and ready to pass any detector. Perfect for essays, thesis sections, and research papers.",
-    before: "The implementation of sustainable educational frameworks represents a pivotal paradigm shift in contemporary pedagogical discourse.",
-    after: "Schools are finally getting serious about sustainability — and it's quietly reshaping how students learn every day.",
-    stat: "87% of students report lower stress after humanizing their drafts",
-  },
-  {
-    id: "writers",
-    emoji: "✍️",
-    label: "Writers",
-    heading: "Your voice, amplified",
-    body: "Use AI as a first-draft engine without losing the voice your readers came for. Humanize to add back the warmth, rhythm, and perspective that makes your writing distinctly yours.",
-    before: "The narrative arc demonstrates compelling character development through sequential, methodically constructed plot progression.",
-    after: "Each chapter pulls you deeper into who these people really are — you feel them changing before the story tells you they have.",
-    stat: "Writers save 3–5 hours per article while keeping their creative voice",
-  },
-  {
-    id: "marketers",
-    emoji: "📣",
-    label: "Marketers",
-    heading: "Copy that actually converts",
-    body: "Generic AI copy doesn't move people. Humanize it to hit the emotional and cultural notes that make your audience feel seen — and take action.",
-    before: "Our solution delivers superior ROI through optimized user experience touchpoints and data-driven stakeholder engagement.",
-    after: "This is the tool your customers will actually love — because it fits into how they already think and work.",
-    stat: "Humanized copy sees 2.3× higher engagement on average",
-  },
-  {
-    id: "business",
-    emoji: "💼",
-    label: "Business",
-    heading: "Clear, warm communication",
-    body: "Internal memos, client emails, and proposals shouldn't sound like they came from a robot. Humanize for the warmth and clarity that builds real trust.",
-    before: "We are initiating a comprehensive review of all operational workflows to maximize stakeholder value and optimize resource allocation.",
-    after: "We're taking a fresh look at how we work — so we can serve you better and free up your team's time for what matters.",
-    stat: "Clearer communication reduces back-and-forth emails by 40%",
-  },
-  {
-    id: "jobseekers",
-    emoji: "🚀",
-    label: "Job Seekers",
-    heading: "Stand out from the pile",
-    body: "AI-written cover letters all sound the same — and recruiters know it. Humanize yours to come across as the specific, real person they actually want to hire.",
-    before: "I am a results-oriented professional with a proven track record of exceeding KPIs in fast-paced, dynamic environments.",
-    after: "I love solving messy problems that don't have obvious answers — and I've got the results to prove it works.",
-    stat: "Personalized applications get 3× more callbacks",
-  },
-];
-
-
-// ⬇️ REPLACE the humanizeText function with an API call to your Flask backend
-// ⬇️ which routes to OpenRouter. This keeps your API key secure (not exposed client-side).
-async function fetchHumanized(text: string, tone: string, audience: string) {
-  const response = await fetch("/api/humanize", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ text, audience: audience ?? "", style: tone }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Humanizer API error");
-  }
-
-  const data = await response.json();
-  if (!data.ok) throw new Error(data.error || "Request failed");
-  return data.output;
-}
-
-
-function humanizeText(input: string, tone: string): string {
-  // This is now a placeholder — the real work happens in fetchHumanized() above.
-  // Kept for backward compatibility if any code still calls it synchronously.
-  return "";
-}
-
-
-function WordChip({ before, after, delay }: { before: string; after: string; delay: number }) {
-  const [flipped, setFlipped] = useState(false);
-
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const interval = setInterval(() => setFlipped((f) => !f), 2800);
-      return () => clearInterval(interval);
-    }, delay);
-    return () => clearTimeout(t);
-  }, [delay]);
-
-
-  return (
-    <div
-      className={`word-chip transition-all duration-500 ${
-        flipped
-          ? "bg-violet-500/20 text-violet-300 border border-violet-500/30"
-          : "bg-white/5 text-white/40 border border-white/10"
-      }`}
-    >
-      {flipped ? (
-        <>
-          <span className="w-1.5 h-1.5 rounded-full bg-violet-400 inline-block" />
-          {after}
-        </>
-      ) : (
-        <>
-          <span className="w-1.5 h-1.5 rounded-full bg-white/30 inline-block" />
-          {before}
-        </>
-      )}
-    </div>
-  );
-}
-
-
-export default function App() {
-  const [inputText, setInputText] = useState("");
-  const [outputText, setOutputText] = useState("");
-  const [tone, setTone] = useState("normal");
-  const [isLoading, setIsLoading] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState("students");
-  const [charCount, setCharCount] = useState(0);
-  const toolRef = useRef<HTMLElement>(null);
-  const outputRef = useRef<HTMLDivElement>(null);
-
-
-  const wordCount = inputText.trim() ? inputText.trim().split(/\s+/).length : 0;
-  const activeAudience = AUDIENCE_TABS.find((t) => t.id === activeTab)!;
-
-
-  function handleInput(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    setInputText(e.target.value);
-    setCharCount(e.target.value.length);
-  }
-
-
-  function handleHumanize() {
-    if (!inputText.trim()) return;
-    setIsLoading(true);
-    setOutputText("");
-
-    fetchHumanized(inputText, tone, activeAudience.id)
-      .then((result) => {
-        setOutputText(result);
-        setIsLoading(false);
-        setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 100);
-      })
-      .catch((err) => {
-        setOutputText("Error: " + err.message);
-        setIsLoading(false);
-      });
-  }
-
-
-  function handleCopy() {
-    if (!outputText) return;
-    navigator.clipboard.writeText(outputText).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }
-
-
-  useEffect(() => {
-    // Update document title based on active audience
-    document.title = `Free AI Humanizer - ${activeAudience.label}`;
-  }, [activeTab]);
-
-
-  return (
-    <div className="min-h-full mesh-bg text-white font-[family-name:var(--font-sans)]">
-      <a href="#main-content" class="skip-link">Skip to main content</a>
-
-      <nav class="nav" role="navigation" aria-label="Main navigation">
-        <a href="{{ site_url }}/" class="brand" aria-label="Free AI Humanizer - Home">
-          <span class="logo" aria-hidden="true">AI</span>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free AI Humanizer — Make AI-assisted writing sound like you</title>
+  <meta name="description" content="Make AI-assisted writing sound more natural, clear, and like you. Free, private, no signup, up to 2,000 words." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="{{ site_url }}/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Free AI Humanizer — Make AI-assisted writing sound like you" />
+  <meta property="og:description" content="Clearer wording, better flow, your meaning intact. Free and private." />
+  <meta property="og:url" content="{{ site_url }}/" />
+  <meta property="og:image" content="{{ site_url }}/static/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="site-shell" id="top">
+    <div class="container">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Free AI Humanizer home">
+          <span class="logo-mark" aria-hidden="true"><span></span><span></span><span></span></span>
           <span>Free AI Humanizer</span>
         </a>
-        <span class="privacy-badge" aria-label="Privacy guaranteed">&#128274; 100% private & secure</span>
-      </nav>
-
-      <header>
-        <h1>Turn AI text into <span class="accent">natural human writing</span></h1>
-        <p class="sub">Paste any AI-generated text, email, or message. We remove AI writing patterns, fix grammar, and adapt the tone to your audience - up to 2000 words.</p>
+        <nav class="desktop-nav" aria-label="Main navigation">
+          <a href="#how-it-works">How it works</a>
+          <a href="#privacy">Privacy</a>
+          <a class="nav-cta" href="#editor">Start writing <span aria-hidden="true">→</span></a>
+        </nav>
+        <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="mobile-menu" id="mobileMenu" hidden>
+          <a href="#how-it-works">How it works</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#editor">Start writing</a>
+        </div>
       </header>
 
       <main id="main-content">
-        <div class="main-card">
-          <div class="textarea-wrap">
-            <textarea
-              id="text"
-              placeholder="Paste your AI-generated text here..."
-              aria-describedby="text-hint"
-              spellcheck="false"
-              onChange={handleInput}
-            ></textarea>
-            <span id="text-hint" class="sr-only">Enter up to 2000 words of AI-generated text to humanize</span>
+        <section class="hero" id="hero">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>A quieter writing tool</p>
+            <h1>Make AI-assisted<br />writing sound <em>like you.</em></h1>
+            <p class="hero-subtitle">Clearer wording, better flow, your meaning intact. Bring a rough draft — leave with something you feel good putting your name on.</p>
           </div>
+          <aside class="hero-note" aria-label="Product positioning">
+            <span class="note-rule" aria-hidden="true"></span>
+            <p>Good writing does not have a tell. It has a point of view.</p>
+            <small>FOR NOTES, APPLICATIONS, PROPOSALS<br />&amp; EVERYTHING IN BETWEEN</small>
+          </aside>
+        </section>
 
-          <div class="controls">
-            <select
-              id="style"
-              class="style-selector"
-              value={tone}
-              onChange={(e) => setTone(e.target.value)}
-            >
-              <option value="normal" selected>Normal (default)</option>
-              <option value="professional">Professional & business</option>
-              <option value="academic">Academic & formal</option>
-              <option value="casual">Casual & friendly</option>
-            </select>
-            <span class="hint">Choose how the humanized text should read.</span>
-          </div>
+        <section class="editor-wrap" id="editor" aria-label="Writing editor">
+          <div class="editor-shadow" aria-hidden="true"></div>
+          <form class="editor" id="humanizerForm">
+            <div class="editor-top">
+              <div class="editor-title"><span class="editor-title-icon" aria-hidden="true">✦</span>Refine your writing</div>
+              <span class="editor-top-note">No account needed · up to 2,000 words</span>
+            </div>
 
-          <button class="btn btn-primary" id="humanizeBtn" type="button" onClick={handleHumanize}>
-            Humanize my text
-          </button>
+            <div class="editor-columns">
+              <div class="pane">
+                <div class="pane-head">
+                  <label class="pane-label" for="text">Your draft</label>
+                  <span class="pane-status"><span class="status-dot" aria-hidden="true"></span>Private</span>
+                </div>
+                <textarea id="text" name="text" placeholder="Paste or write your draft here..." aria-describedby="wordCount" spellcheck="true"></textarea>
+                <div class="pane-foot">
+                  <span id="wordCount">0 / 2,000 words</span>
+                  <button class="text-button" id="clearBtn" type="button" disabled>↺ Clear</button>
+                </div>
+              </div>
 
-          <div class="status" id="status" role="status" aria-live="polite" aria-atomic="true">
-            {isLoading && (
-              <span class="spinner" aria-hidden="true"></span> Humanizing&hellip;
-            )}
-          </div>
+              <div class="pane result-pane" id="result" hidden>
+                <div class="pane-head">
+                  <span class="pane-label">Your version</span>
+                  <button class="copy-button" id="copyBtn" type="button" disabled>▣ <span>Copy text</span></button>
+                </div>
+                <div class="result-box" id="resultBox" role="status" aria-live="polite">Your clearer version will appear here.</div>
+                <div class="pane-foot">
+                  <span id="resultCount">0 words</span>
+                  <span id="resultMeta">Meaning preserved</span>
+                </div>
+              </div>
+            </div>
 
-          <div class="trust" role="list" aria-label="Trust indicators">
-            <div class="item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Nothing stored</div>
-            <div class="item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> No signup</div>
-            <div class="item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Free</div>
-          </div>
+            <div class="editor-controls">
+              <div class="control-group">
+                <span class="control-label">Tone</span>
+                <div class="tone-list" role="group" aria-label="Writing tone">
+                  <button class="tone-button is-active" type="button" data-tone="normal" aria-pressed="true">Natural</button>
+                  <button class="tone-button" type="button" data-tone="professional" aria-pressed="false">Warm</button>
+                  <button class="tone-button" type="button" data-tone="casual" aria-pressed="false">Direct</button>
+                  <button class="tone-button" type="button" data-tone="academic" aria-pressed="false">Academic</button>
+                </div>
+              </div>
+              <div class="control-group audience-group">
+                <label class="control-label" for="audience">For</label>
+                <select id="audience" name="audience" class="audience-select">
+                  <option value="general reader">General reader</option>
+                  <option value="classmates">Classmates</option>
+                  <option value="clients and colleagues">Clients &amp; colleagues</option>
+                  <option value="hiring teams">Hiring teams</option>
+                </select>
+              </div>
+            </div>
 
-          <button class="btn btn-secondary" id="sampleBtn" type="button" onClick={() => {
-            const sample = "In today's fast-paced world, we must leverage the synergy of our team to elevate our digital landscape. Moreover, it is imperative that we delve into innovative strategies and seamless solutions to foster sustainable growth across all sectors.";
-            setInputText(sample);
-            // Also display humanized version via the API
-            fetchHumanized(inputText, tone, activeAudience.id).then(result => {
-              setOutputText(result);
-            });
-            setOutputText("Sample text loaded - results vary for your own text");
-            setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
-          }>
-            Try a sample
-          </button>
+            <div class="editor-actions">
+              <button class="try-button" id="sampleBtn" type="button">✦ <span>Try our sample</span></button>
+              <button class="primary-button" id="humanizeBtn" type="submit" disabled>Make it sound like me <span aria-hidden="true">→</span></button>
+            </div>
+            <p class="status-message" id="status" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <div class="privacy-bar" id="privacy" aria-label="Privacy promises">
+          <span class="privacy-pill"><span aria-hidden="true">▣</span>Nothing stored</span>
+          <span class="privacy-pill"><span aria-hidden="true">□</span>No signup</span>
+          <span class="privacy-pill"><span aria-hidden="true">✦</span>Free forever</span>
         </div>
-      </div>
 
-      <div class="result" id="result" role="region" aria-label="Humanized output" aria-live="polite">
-        <div class="result-head">
-          <h3>✓ Humanized output</h3>
-          <button class="copy-btn" id="copyBtn" type="button" onClick={handleCopy}>Copy</button>
-        </div>
-        <div class="result-box" id="resultBox" aria-label="Humanized text output" ref={outputRef}></div>
-      </div>
+        <section class="principles-section" id="how-it-works">
+          <div class="section-head">
+            <div>
+              <p class="section-eyebrow">The small print, made simple</p>
+              <h2>A better draft is still yours.</h2>
+            </div>
+            <p>Use it when the words are almost there — but not quite in your voice yet.</p>
+          </div>
+          <div class="principles-grid">
+            <article class="principle"><span class="principle-index">01 / Start with what you have</span><h3>Paste the rough version.</h3><p>A paragraph, an application answer, a client note. Messy is a perfectly good place to start.</p></article>
+            <article class="principle"><span class="principle-index">02 / Choose your setting</span><h3>Set the room.</h3><p>Pick a tone and the person on the other side of the page. The writing follows.</p></article>
+            <article class="principle"><span class="principle-index">03 / Keep the good parts</span><h3>Make it yours.</h3><p>We smooth the wording and rhythm while keeping the thought unmistakably yours.</p></article>
+          </div>
+        </section>
+      </main>
 
-      <div class="pills" role="list" aria-label="Who uses this tool">
-        <span role="listitem">Students</span>
-        <span role="listitem">Writers</span>
-        <span role="listitem">Marketers</span>
-        <span role="listitem">Business pros</span>
-        <span role="listitem">Job seekers</span>
-      </div>
+      <footer class="site-footer">
+        <strong>Free AI Humanizer</strong>
+        <span>For writing that sounds like a person.</span>
+        <nav aria-label="Footer navigation"><a href="/privacy">Privacy</a><a href="/about">About</a></nav>
+      </footer>
     </div>
-
-    <footer role="contentinfo">
-      &copy; {{ site_url }} &mdash; Free AI text humanizer. Remove AI watermarks, fix grammar, humanize up to 2000 words.
-      <div style="margin-top: 1rem; font-size: 0.7rem; color: var(--muted);">
-        <a href="{{ site_url }}/" style="margin-right: 1rem; color: var(--accent); text-decoration: none;">Humanize AI text</a>
-        <a href="{{ site_url }}/privacy" style="margin-right: 1rem; color: var(--accent); text-decoration: none;">Privacy</a>
-        <a href="{{ site_url }}/about" style="color: var(--accent); text-decoration: none;">About</a>
-      </div>
-    </footer>
-
-    <script src="{{ site_url }}/static/js/main.js" defer></script>
-    <noscript>
-      <div style="padding: 2rem; text-align: center; max-width: 600px; margin: 2rem auto; background: #fff; border: 1px solid var(--border); border-radius: var(--radius);">
-        <h3 style="color: var(--fg); margin-bottom: 1rem;">JavaScript Required</h3>
-        <p style="color: var(--muted);">This tool requires JavaScript to humanize text. Please enable JavaScript in your browser settings.</p>
-        <form action="/api/humanize" method="POST" style="margin-top: 1.5rem; text-align: left; max-width: 480px; margin-left: auto; margin-right: auto;">
-          <label for="text-nojs" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Your text</label>
-          <textarea name="text" id="text-nojs" rows="6" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--fg); font-family: inherit;" required></textarea>
-          <select name="style" id="style-nojs" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--fg); margin-top: 1rem;">
-            <option value="normal">Normal</option>
-            <option value="professional">Professional</option>
-            <option value="academic">Academic</option>
-            <option value="casual">Casual</option>
-          </select>
-          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Humanize my text</button>
-        </form>
-      </div>
-    </noscript>
-  );
-}
+  </div>
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</body>
+</html>
