@@ -3,25 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Free AI Humanizer</title>
-  <meta name="description" content="Learn about Free AI Humanizer - a genuinely free, private, no-signup AI text humanizer." />
+  <title>About Us | Free AI Humanizer - Private & Truly Free</title>
+  <meta name="description" content="Learn about Free AI Humanizer: our mission for private, accessible writing refinement, our zero-data retention policy, and how we eliminate robotic AI patterns." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="{{ site_url }}/about" />
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="About Free AI Humanizer - Free, Private Writing Utility" />
+  <meta property="og:description" content="A completely free, no-signup tool engineered to eliminate robotic patterns and restore natural human rhythm to drafts." />
+  <meta property="og:url" content="{{ site_url }}/about" />
+
+  <!-- E-E-A-T AboutPage Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About Free AI Humanizer",
+    "url": "{{ site_url }}/about",
+    "description": "Learn about Free AI Humanizer, our zero-data retention architecture, and our computational approach to natural human writing.",
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "Free AI Humanizer",
+      "url": "{{ site_url }}",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  }
+  </script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <div class="site-shell" id="top">
     <div class="container">
       <header class="site-header">
-        <a class="brand" href="#top" aria-label="Free AI Humanizer home">
+        <!-- Fixed: Links back to Homepage -->
+        <a class="brand" href="/" aria-label="Free AI Humanizer home">
           <span class="logo-mark" aria-hidden="true"><span></span><span></span><span></span></span>
           <span>Free AI Humanizer</span>
         </a>
+        <!-- Fixed: Root-relative paths for subpage navigation -->
         <nav class="desktop-nav" aria-label="Main navigation">
           <a href="/">Home</a>
-          <a href="#how-it-works">How it works</a>
+          <a href="/#how-it-works">How it works</a>
           <a href="/privacy">Privacy</a>
         </nav>
         <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-label="Toggle navigation" aria-expanded="false">
@@ -29,7 +60,7 @@
         </button>
         <div class="mobile-menu" id="mobileMenu" hidden>
           <a href="/">Home</a>
-          <a href="#how-it-works">How it works</a>
+          <a href="/#how-it-works">How it works</a>
           <a href="/privacy">Privacy</a>
         </div>
       </header>
@@ -38,36 +69,45 @@
         <div class="main-card">
           <h1>About Free AI Humanizer</h1>
 
-          <p>Free AI Humanizer is a genuinely free online tool that makes AI-assisted writing clearer, more natural, and more readable. There is no paywall, no signup requirement, and no hidden fees.</p>
+          <p class="lead">Free AI Humanizer is an independent language engineering utility created to restore natural cadence, authentic voice, and clarity to AI-assisted writing. It is genuinely free, completely private, and requires no account or subscription.</p>
 
-          <h2>Our Core Principles</h2>
+          <h2>Why We Built It</h2>
+          <p>As large language models like ChatGPT, Claude, and Gemini have become integrated into daily writing workflows, their stylistic fingerprints have become obvious. Robotic syntax, repetitive sentence structures, and overused transitions make drafts sound mechanical. Worse, imperfect AI detection algorithms frequently flag original, authentic human writing with false positives.</p>
+          <p>Most online humanizers and paraphrasers exploit this problem with aggressive credit limits, paywalls, and mandatory logins. We built <strong>Free AI Humanizer</strong> to provide a fast, private, and permanent free alternative.</p>
+
+          <h2>Our Core Architecture & Principles</h2>
           <ul>
-            <li><strong>100% Free:</strong> No paywall, no tier limits, no "freemium" upsell. Humanize up to 2000 words per request, forever.</li>
-            <li><strong>No Signup:</strong> No account creation, no email required, no verification. Open the tool and start humanizing immediately.</li>
-            <li><strong>Privacy by Design:</strong> Your text is processed in memory on the server and never stored, written to disk, or logged. Full details in our <a href="/privacy">Privacy Policy</a>.</li>
-            <li><strong>Quality Over Volume:</strong> The humanizer focuses on removing robotic phrasing and fixing grammar while preserving your facts, names, numbers, and intent. It does not invent information or guarantee detector bypass.</li>
+            <li><strong>100% Free Forever:</strong> No subscription tiers, paywalls, or token systems. Humanize up to 2,000 words per request with zero restrictions.</li>
+            <li><strong>Zero Account Friction:</strong> No signups, email collection, or passwords. Paste your draft and get clean copy immediately.</li>
+            <li><strong>Ephemeral Memory (Strict Privacy):</strong> Your text is processed dynamically in server RAM and is purged immediately upon delivery. We never store, log, or train models on your writing. Read our full <a href="/privacy">Privacy Policy</a>.</li>
+            <li><strong>Structural Realism:</strong> Rather than using blunt synonym swapping (which breaks sentence flow), our engine restructures sentence cadence, dissolves algorithmic clichés, and calibrates perplexity and burstiness.</li>
           </ul>
 
-          <h2>How It Works</h2>
+          <h2>The Linguistics: How We Humanize Text</h2>
+          <p>AI detectors analyze mathematical patterns—primarily <strong>perplexity</strong> (word predictability) and <strong>burstiness</strong> (variation in sentence lengths). Machine-generated prose features flat, uniform metrics, whereas human writers naturally mix short, punchy statements with complex clauses.</p>
+          <p>Our processing pipeline addresses these patterns directly:</p>
           <ol>
-            <li>Paste any AI-generated text (from ChatGPT, Gemini, Claude, or other tools)</li>
-            <li>Optionally select a writing style (Normal, Professional, Academic, Casual) and recipient audience</li>
-            <li>Click "Humanize my text"</li>
-            <li>The model removes AI writing patterns, fixes grammar, and returns text that reads naturally</li>
-            <li>Copy the result and use it anywhere</li>
+            <li><strong>Pattern Elimination:</strong> Identifies and removes mechanical AI phrasing (such as <em>"delve into," "testament," "tapestry,"</em> and formulaic transitions).</li>
+            <li><strong>Syntactic Rebalancing:</strong> Varies sentence length dynamically to replicate organic human burstiness.</li>
+            <li><strong>Contextual Preservation:</strong> Protects your facts, technical terminology, names, and original meaning while improving readability and flow.</li>
           </ol>
 
-          <h2>Who Is It For?</h2>
-          <p>Students, writers, marketers, business professionals, job seekers, and anyone who wants AI-assisted writing to sound more like their own.</p>
+          <h2>Our Position on AI Detectors</h2>
+          <p>While Free AI Humanizer optimizes the exact structural and statistical markers evaluated by systems like Turnitin, GPTZero, and Copyleaks—drastically reducing false-positive rates—our primary focus remains <strong>writing quality</strong>. AI detection models change continuously; our focus is ensuring your writing reads naturally and authentically to human audiences first.</p>
 
-          <p><strong>This tool is not designed to "bypass AI detectors."</strong> It is designed to make AI-assisted writing clearer, more natural, and more appropriate for its intended audience. AI detector accuracy varies and changes over time; this tool focuses on writing quality, not evasion.</p>
+          <h2>Get in Touch</h2>
+          <p>Have questions, suggestions, or feedback? We welcome input from our users:</p>
+          <p><strong>Support & Inquiries:</strong> <a href="mailto:support@freeaihumanizer.in">support@freeaihumanizer.in</a></p>
         </div>
       </main>
 
       <footer class="site-footer">
         <strong>Free AI Humanizer</strong>
         <span>For writing that sounds like a person.</span>
-        <nav aria-label="Footer navigation"><a href="/privacy">Privacy</a><a href="/about">About</a></nav>
+        <nav aria-label="Footer navigation">
+          <a href="/privacy">Privacy</a>
+          <a href="/about">About</a>
+        </nav>
       </footer>
     </div>
   </div>
