@@ -3,9 +3,5 @@
   "name": "ai-humanizer-v3",
   "main": "src/worker.py",
   "compatibility_date": "2026-09-06",
-  "compatibility_flags": ["python_workers"],
-  "assets": {
-    "directory": "./app/static/",
-    "binding": "ASSETS"
-  }
+  "compatibility_flags": ["python_workers"]
 }

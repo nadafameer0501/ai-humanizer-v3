@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free AI Humanizer — Make AI-assisted writing sound like you</title>
+  <meta name="description" content="Make AI-assisted writing sound more natural, clear, and like you. Free, private, no signup, up to 2,000 words." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="{{ site_url }}/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Free AI Humanizer — Make AI-assisted writing sound like you" />
+  <meta property="og:description" content="Clearer wording, better flow, your meaning intact. Free and private." />
+  <meta property="og:url" content="{{ site_url }}/" />
+  <meta property="og:image" content="{{ site_url }}/static/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="site-shell" id="top">
+    <div class="container">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Free AI Humanizer home">
+          <span class="logo-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span>Free AI Humanizer</span>
+        </a>
+        <nav class="desktop-nav" aria-label="Main navigation">
+          <a href="#how-it-works">How it works</a>
+          <a href="#privacy">Privacy</a>
+          <a class="nav-cta" href="#editor">Start writing <span aria-hidden="true">→</span></a>
+        </nav>
+        <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
+      </header>
+
+      <main id="main-content">
+        <section class="hero" id="hero">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>A quieter writing tool</p>
+            <h1>Make AI-assisted<br />writing sound <em>like you.</em></h1>
+            <p class="hero-subtitle">Clearer wording, better flow, your meaning intact. Bring a rough draft — leave with something you feel good putting your name on.</p>
+          </div>
+          <aside class="hero-note" aria-label="Product positioning">
+            <span class="note-rule" aria-hidden="true"></span>
+            <p>Good writing does not have a tell. It has a point of view.</p>
+            <small>FOR NOTES, APPLICATIONS, PROPOSALS<br />&amp; EVERYTHING IN BETWEEN</small>
+          </aside>
+        </section>
+
+        <section class="editor-wrap" id="editor" aria-label="Writing editor">
+          <div class="editor-shadow" aria-hidden="true"></div>
+          <form class="editor" id="humanizerForm">
+            <div class="editor-top">
+              <div class="editor-title"><span class="editor-title-icon" aria-hidden="true">✦</span>Refine your writing</div>
+              <span class="editor-top-note">No account needed · up to 2,000 words</span>
+            </div>
+
+            <div class="editor-columns">
+              <div class="pane">
+                <div class="pane-head">
+                  <label class="pane-label" for="text">Your draft</label>
+                  <span class="pane-status"><span class="status-dot" aria-hidden="true"></span>Private</span>
+                </div>
+                <textarea id="text" name="text" placeholder="Paste or write your draft here..." aria-describedby="wordCount" spellcheck="true"></textarea>
+                <div class="pane-foot">
+                  <span id="wordCount">0 / 2,000 words</span>
+                  <button class="text-button" id="clearBtn" type="button" disabled>↺ Clear</button>
+                </div>
+              </div>
+
+              <div class="pane result-pane" id="result" hidden>
+                <div class="pane-head">
+                  <span class="pane-label">Your version</span>
+                  <button class="copy-button" id="copyBtn" type="button" disabled>▣ <span>Copy text</span></button>
+                </div>
+                <div class="result-box" id="resultBox" role="status" aria-live="polite">Your clearer version will appear here.</div>
+                <div class="pane-foot">
+                  <span id="resultCount">0 words</span>
+                  <span id="resultMeta">Meaning preserved</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="editor-controls">
+              <div class="control-group">
+                <span class="control-label">Tone</span>
+                <div class="tone-list" role="group" aria-label="Writing tone">
+                  <button class="tone-button is-active" type="button" data-tone="normal" aria-pressed="true">Natural</button>
+                  <button class="tone-button" type="button" data-tone="professional" aria-pressed="false">Warm</button>
+                  <button class="tone-button" type="button" data-tone="casual" aria-pressed="false">Direct</button>
+                  <button class="tone-button" type="button" data-tone="academic" aria-pressed="false">Academic</button>
+                </div>
+              </div>
+              <div class="control-group audience-group">
+                <label class="control-label" for="audience">For</label>
+                <select id="audience" name="audience" class="audience-select">
+                  <option value="general reader">General reader</option>
+                  <option value="classmates">Classmates</option>
+                  <option value="clients and colleagues">Clients &amp; colleagues</option>
+                  <option value="hiring teams">Hiring teams</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="editor-actions">
+              <button class="try-button" id="sampleBtn" type="button">✦ <span>Try our sample</span></button>
+              <button class="primary-button" id="humanizeBtn" type="submit" disabled>Make it sound like me <span aria-hidden="true">→</span></button>
+            </div>
+            <p class="status-message" id="status" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <div class="privacy-bar" id="privacy" aria-label="Privacy promises">
+          <span class="privacy-pill"><span aria-hidden="true">▣</span>Nothing stored</span>
+          <span class="privacy-pill"><span aria-hidden="true">□</span>No signup</span>
+          <span class="privacy-pill"><span aria-hidden="true">✦</span>Free forever</span>
+        </div>
+
+        <section class="principles-section" id="how-it-works">
+          <div class="section-head">
+            <div>
+              <p class="section-eyebrow">The small print, made simple</p>
+              <h2>A better draft is still yours.</h2>
+            </div>
+            <p>Use it when the words are almost there — but not quite in your voice yet.</p>
+          </div>
+          <div class="principles-grid">
+            <article class="principle"><span class="principle-index">01 / Start with what you have</span><h3>Paste the rough version.</h3><p>A paragraph, an application answer, a client note. Messy is a perfectly good place to start.</p></article>
+            <article class="principle"><span class="principle-index">02 / Choose your setting</span><h3>Set the room.</h3><p>Pick a tone and the person on the other side of the page. The writing follows.</p></article>
+            <article class="principle"><span class="principle-index">03 / Keep the good parts</span><h3>Make it yours.</h3><p>We smooth the wording and rhythm while keeping the thought unmistakably yours.</p></article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <strong>Free AI Humanizer</strong>
+        <span>For writing that sounds like a person.</span>
+        <nav aria-label="Footer navigation"><a href="/privacy">Privacy</a><a href="/about">About</a></nav>
+      </footer>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</body>
+</html>

@@ -1,11 +1,12 @@
+import os
+
 from flask import Blueprint, jsonify, render_template, request
-from workers import env
 
 from .humanizer import count_words, humanize
 
 bp = Blueprint("main", __name__)
 
-SITE_URL = getattr(env, "SITE_URL", "https://freeaihumanizer.in").rstrip("/")
+SITE_URL = os.environ.get("SITE_URL", "https://freeaihumanizer.in").rstrip("/")
 ALLOWED_STYLES = {"normal", "professional", "academic", "casual"}
 MAX_WORDS = 2000
 
