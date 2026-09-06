@@ -1,4 +1,5 @@
+from app import create_app
 from workers import wsgi
-from app import app
 
+app = create_app()
 Default = wsgi.entrypoint(app)
